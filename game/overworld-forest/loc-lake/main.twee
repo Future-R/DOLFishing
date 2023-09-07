@@ -386,6 +386,8 @@ You are at the bus stop beside the lake. The road from town terminates here, end
 	<<lakereturnjourney>>
 	<<ind>><<link [[Meditate|Lake Meditate]]>><<set $phase to 1>><</link>>
 	<br>
+	<<ind>><<link [[钓鱼|Go Fishing]]>><</link>>
+	<br>
 	<<if $nextPassageCheck is "Lake Waterfall">>
 		<<lakeicon>><span class="nextLink"><<link [[The lake.|Lake Waterfall]]>><<pass 10>><</link>></span>
 	<<else>>
@@ -399,6 +401,18 @@ You are at the bus stop beside the lake. The road from town terminates here, end
 	<br>
 	<<set $eventskip to 0>>
 <</if>>
+
+:: Go Fishing
+
+
+<<set $outside to 1>><<set $location to "lake">><<effects>><<lakeeffects>>
+<<updateFishMapCollections>>
+明亮的小河里面有一条小鳟鱼，<br>
+快活地游来游去像箭儿一样。<br>
+你站在小河岸上静静地朝它望。<br>
+在清清的河水里面，它游得多欢畅。<br><br>
+<<ind>><<link [[走开|Lake Fishing Rock]]>><</link>>
+
 
 :: Lake Firepit
 

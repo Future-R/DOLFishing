@@ -266,7 +266,7 @@
 			</div>
 			<br>
 			<div class="sidebarButtonSplit">
-				<<if $dancing is 0 and $combat is 0 and $passage isnot "Start2" and $cheatdisable is "f" or $debug is 1>>
+				<<if $dancing is 0 and $combat is 0 and $passage isnot "Start2" or $debug is 1>>
 					<<button CHEATS>>
 						<<overlayReplace "cheats">>
 					<</button>>

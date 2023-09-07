@@ -4672,6 +4672,8 @@ sugarcube-2:
       name: lmaths
     loadBoxIronmanCheater:
       name: loadBoxIronmanCheater
+	loadFishMapModel:
+	  name: loadFishMapModel
     loadBoxIronmanSafetyCancel:
       name: loadBoxIronmanSafetyCancel
     loadFiltersMenu:
@@ -7677,6 +7679,8 @@ sugarcube-2:
       name: updateFeats
     updateFeatsPointsMenu:
       name: updateFeatsPointsMenu
+	updateFishMapCollections:
+      name: updateFishMapCollections
     updateHallucinations:
       name: updateHallucinations
     updateMuseumAntiques:
