@@ -700,7 +700,6 @@ const DoLCompressorDictionaries = (() => {
 		"fightstart",
 		"filter",
 		"finish",
-		"FishMap",
 		"flashbackbeach",
 		"flashbackhome",
 		"flashbacks",

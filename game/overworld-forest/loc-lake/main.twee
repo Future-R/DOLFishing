@@ -386,7 +386,7 @@ You are at the bus stop beside the lake. The road from town terminates here, end
 	<<lakereturnjourney>>
 	<<ind>><<link [[Meditate|Lake Meditate]]>><<set $phase to 1>><</link>>
 	<br>
-	<<ind>><<link [[钓鱼|Go Fishing]]>><</link>>
+	<<icon "fishing.gif">><<link [[钓鱼 (0:10)|Go Fishing]]>><</link>>
 	<br>
 	<<if $nextPassageCheck is "Lake Waterfall">>
 		<<lakeicon>><span class="nextLink"><<link [[The lake.|Lake Waterfall]]>><<pass 10>><</link>></span>
@@ -404,14 +404,24 @@ You are at the bus stop beside the lake. The road from town terminates here, end
 
 :: Go Fishing
 
-
 <<set $outside to 1>><<set $location to "lake">><<effects>><<lakeeffects>>
-<<updateFishMapCollections>>
-明亮的小河里面有一条小鳟鱼，<br>
-快活地游来游去像箭儿一样。<br>
-你站在小河岸上静静地朝它望。<br>
-在清清的河水里面，它游得多欢畅。<br><br>
-<<ind>><<link [[走开|Lake Fishing Rock]]>><</link>>
+
+<<run initFishModel()>>
+这片水域似乎有 $FishModel.length 种鱼。
+<br>
+鱼篓里有 $currentFish.length 条鱼。
+<br>
+<<run anglingCheck()>>
+<font color="#FFFF00">$catchDesc</font>
+<<if $newFish>>
+	<sup><font color="#FF0000">New!</font></sup>
+<</if>>
+<<stress -1>><<lstress>>
+<br>
+<<icon "fishing.gif">><<link [[继续继续 (0:10)|Go Fishing]]>><</link>><br>
+<<ind>><<link [[全部放生|Lake Fishing Rock][run currentFishClear()]]>><</link>><br>
+<<ind>><<link [[遗憾离场|Lake Fishing Rock]]>><</link>><br>
+
 
 
 :: Lake Firepit
