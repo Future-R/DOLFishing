@@ -1,5 +1,4 @@
-function currentFishClear()
+window.currentFishClear = function currentFishClear()
 {
-	V.currentFish = [];
+	SugarCube.State.variables.currentFish = [];
 }
-window.currentFishClear = currentFishClear;

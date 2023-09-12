@@ -386,7 +386,10 @@ You are at the bus stop beside the lake. The road from town terminates here, end
 	<<lakereturnjourney>>
 	<<ind>><<link [[Meditate|Lake Meditate]]>><<set $phase to 1>><</link>>
 	<br>
+	<<run initFishModel()>>
 	<<icon "fishing.gif">><<link [[钓鱼 (0:10)|Go Fishing]]>><</link>>
+	<br>
+	<<icon "ask.gif">><<link [[询问巨鹰|Ask Fuda About Fish]]>><</link>>
 	<br>
 	<<if $nextPassageCheck is "Lake Waterfall">>
 		<<lakeicon>><span class="nextLink"><<link [[The lake.|Lake Waterfall]]>><<pass 10>><</link>></span>
@@ -406,23 +409,59 @@ You are at the bus stop beside the lake. The road from town terminates here, end
 
 <<set $outside to 1>><<set $location to "lake">><<effects>><<lakeeffects>>
 
-<<run initFishModel()>>
 这片水域似乎有 $FishModel.length 种鱼。
 <br>
-鱼篓里有 $currentFish.length 条鱼。
+你的鱼篓里有 $currentFish.length 条鱼。
 <br>
+你奋力提竿。
 <<run anglingCheck()>>
-<font color="#FFFF00">$catchDesc</font>
-<<if $newFish>>
-	<sup><font color="#FF0000">New!</font></sup>
-<</if>>
-<<stress -1>><<lstress>>
 <br>
+<<if $newFish>>
+	嗯？这是……
+	<font color="#FF0000"><<=$FishModel[$currentFish.slice(-1)].name>></font>！
+	<br>
+<</if>>
+<font color="#FFFF00">$catchDesc</font>
+<<stress -1>><<lstress>>
+<br><br>
 <<icon "fishing.gif">><<link [[继续继续 (0:10)|Go Fishing]]>><</link>><br>
-<<ind>><<link [[全部放生|Lake Fishing Rock][run currentFishClear()]]>><</link>><br>
+<<ind>><<link [[全部放生|Lake Fishing Rock]]>><<run currentFishClear()>><</link>><br>
 <<ind>><<link [[遗憾离场|Lake Fishing Rock]]>><</link>><br>
 
+:: Ask Fuda About Fish
 
+<<set $outside to 1>><<set $location to "lake">><<effects>><<lakeeffects>>
+
+巨鹰：<br>
+啊，有什么可以效劳的吗？要是有什么可以帮上忙的，请一定要告诉我。<br><br>
+<<set _index to -1>>
+<<set _index to notContains($fishCollections, $currentFish)>>
+<<if _index is not -1>>
+	呼呼！
+	<<print either(
+	"这是，这是……<<=$FishModel[$currentFish[_index]].name>>！",
+	"这一定是<<=$FishModel[$currentFish[_index]].name>>！",
+	"什么！这不是<<=$FishModel[$currentFish[_index]].name>>吗！"
+	)>>
+	<br>
+	可以的话……关于<font color="#0becf5"><<=$FishModel[$currentFish[_index]].name>></font>，我来给你稍微解说一下吧？
+	<br><br>
+	<<=$FishModel[$currentFish[_index]].detail>>
+	<br><br>
+	<<set _price to 0>>
+	<<set _price to donateFish(_index)>>
+	你向巨鹰捐赠了<font color="#0becf5"><<=$FishModel[$fishCollections.slice(-1)].name>></font>。
+	<br>
+	图鉴收集度：<<=$fishCollections.length>> / <<=$FishModel.length>>
+	<br>
+	获得报酬<font color="#FFFF00">￡<<=_price/100>></font>！
+	<br>
+	￡<<=$money/100>> → 
+	<<set $money += _price>>
+	￡<<=$money/100>>
+<</if>>
+<br><br>
+<<ind>><<link [[离开|Lake Fishing Rock]]>><</link>><br>
 
 :: Lake Firepit
 
