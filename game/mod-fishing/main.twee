@@ -47,11 +47,11 @@
 	<br>
 	图鉴收集度：<<=$fishCollections.length>> / <<=$FishModel.length>>
 	<br>
-	获得报酬<font color="#FFFF00">￡<<=_price/100>></font>！
+	获得报酬<font color="#FFFF00">£<<=_price/100>></font>！
 	<br>
-	￡<<=$money/100>> → 
+	£<<=$money/100>> → 
 	<<set $money += _price>>
-	￡<<=$money/100>>
+	£<<=$money/100>>
 <</if>>
 <br><br>
 <<ind>><<link [[离开|Lake Fishing Rock]]>><</link>><br>
