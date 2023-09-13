@@ -488,10 +488,10 @@
 		<br><br>
 		<<shoptraits>>
 		<<set _slimeSlots to setup.clothingLayer.torso>>
-		<<if $daily.corruptionSlimeClothes is undefined and $corruption_slime gte 10>>
-			<<set $daily.corruptionSlimeClothes to random($corruption_slime * 5, $corruption_slime * 15) - currentSkillValue('willpower')>>
+		<<if $daily.corruptionSlimeClothes is undefined and $earSlime.corruption gte 10>>
+			<<set $daily.corruptionSlimeClothes to random($earSlime.corruption * 5, $earSlime.corruption * 15) - currentSkillValue('willpower')>>
 		<</if>>
-		<<if $slimeEvent is "go commando" and $clothingShopSlot is "under_lower">>
+		<<if $earSlime.event is "go commando" and $clothingShopSlot is "under_lower">>
 			<span class="red">The slime in your ear refuses to allow you to try on or buy the  _temp_choice.name as it is forcing you to go commando.</span>
 			<br>
 		<<elseif _slimeSlots.includes($clothingShopSlot) and $daily.corruptionSlimeClothes and _temp_choice.reveal lt Math.clamp($daily.corruptionSlimeClothes, 0, 500) and !(_temp_choice.type.includesAny("school") and Time.schoolDay) and !_temp_choice.type.includesAny("event")>>
@@ -575,7 +575,7 @@
 						<<printpreggy _temp_choice>>
 					<<else>>
 						<<link "Steal and wear">>
-							<<shopbuyv2 _realSlot "steal" "wear" _realIndex>><<crimeup `getClothingCost(_temp_choice,$clothingShopSlot) / 100`>>
+							<<shopbuyv2 _realSlot "steal" "wear" _realIndex>><<crimeUp `getClothingCost(_temp_choice,$clothingShopSlot) / 100` "thievery">>
 							<<set $clothingShop.stolenClothes++>>
 							<<set $clothingShop.totalStolenClothes++>>
 							<<if $shopDefaults.disableReturn is false>>
@@ -591,11 +591,11 @@
 								<<updatewarmthdescription>>
 							<</if>>
 							<<run updateMoment()>>
-						<</link>><<crime>>
+						<</link>><<crime "thievery">>
 						<br>
 					<</if>>
 					<<link "Steal and take home">>
-						<<shopbuyv2 _realSlot "steal" "send" _realIndex>><<crimeup `getClothingCost(_temp_choice,$clothingShopSlot) / 100`>>
+						<<shopbuyv2 _realSlot "steal" "send" _realIndex>><<crimeUp `getClothingCost(_temp_choice,$clothingShopSlot) / 100` "thievery">>
 						<<set $clothingShop.stolenClothes++>>
 						<<set $clothingShop.totalStolenClothes++>>
 						<<if $shopDefaults.disableReturn is false>>
@@ -604,7 +604,7 @@
 						<<updateclotheslist>>
 						<<updatesidebarimg>>
 						<<run updateMoment()>>
-					<</link>><<crime>>
+					<</link>><<crime "thievery">>
 					<br>
 				<<else>>
 					<span class="red">You can't carry any more clothes with you.</span> You should take them to your wardrobe.

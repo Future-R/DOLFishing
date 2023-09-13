@@ -116,7 +116,7 @@ const combatActionColours = {
 		],
 		sub: [
 			/* leftaction or rightaction */
-			"leftplay", "leftgrab", "leftstroke", "leftchest", "rightplay", "rightgrab", "rightstroke", "rightchest", "leftchest", "rightchest", "leftwork", "rightwork", "leftclit", "rightclit", "handedge", "keepchoke", "leftmasturbatepussy", "rightmasturbatepussy", "leftmasturbateanus", "rightmasturbateanus", "leftmasturbatepenis", "rightmasturbatepenis", "lefthandholdkeep", "righthandholdkeep", "lefthandholdnew", "righthandholdnew", "handguide", "lubeanus", "lubepussy", "lubepenis", "removebuttplug", "dildoOtherPussyTease", "dildoOtherPussyFuck", "dildoOtherAnusTease", "dildoOtherAnusFuck", "strokerOtherPenisTease", "strokerOtherPenisFuck", "dildoSelfPussyEntrance", "dildoSelfAnusEntrance", "dildoSelfPussy", "dildoSelfAnus", "strokerSelfPenisEntrance", "strokerSelfPenis",
+			"leftplay", "leftgrab", "leftstroke", "leftchest", "rightplay", "rightgrab", "rightstroke", "rightchest", "leftchest", "rightchest", "leftwork", "rightwork", "leftclit", "rightclit", "handedge", "keepchoke", "leftmasturbatepussy", "rightmasturbatepussy", "leftmasturbateanus", "rightmasturbateanus", "leftmasturbatepenis", "rightmasturbatepenis", "lefthandholdkeep", "righthandholdkeep", "lefthandholdnew", "righthandholdnew", "handguide", "lubeanus", "lubepussy", "lubepenis", "removebuttplug", "dildoOtherPussyTease", "dildoOtherPussyFuck", "dildoOtherAnusTease", "dildoOtherAnusFuck", "strokerOtherPenisTease", "strokerOtherPenisFuck", "dildoSelfPussyEntrance", "dildoSelfAnusEntrance", "dildoSelfPussy", "dildoSelfAnus", "strokerSelfPenisEntrance", "strokerSelfPenis", "leftcovervaginalewd", "rightcovervaginalewd", "leftcoverpenislewd", "rightcoverpenislewd", "leftcoveranuslewd", "rightcoveranuslewd",
 			/* feetaction */
 			"grab", "vaginagrab", "grabrub", "vaginagrabrub", "rub",
 			/* mouthaction */
@@ -585,7 +585,10 @@ function bulkProduceValue(plant, quantity = 250) {
 window.bulkProduceValue = bulkProduceValue;
 
 function toTitleCase(str) {
-	return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+	const exclude = new Set(["a", "an", "and", "as", "at", "but", "by", "for", "if", "in", "of", "on", "or", "the", "to", "up", "yet"]);
+	return str.toLowerCase().replace(/\b\w[\w']*\b/g, (word, i) => {
+		return exclude.has(word) && i !== 0 ? word : word.toUpperFirst();
+	});
 }
 window.toTitleCase = toTitleCase;
 
@@ -1260,7 +1263,9 @@ function currentSkillValue(skill) {
 			if (V.worn.feet.type.includes("shackle")) result /= 10;
 			break;
 		case "willpower":
-			if (V.parasite.left_ear.name === V.parasite.right_ear.name && V.parasite.left_ear.name === "slime") {
+			if (V.earSlime.growth >= 75) {
+				result = Math.floor(result * (V.earSlime.growth > 75 ? 0.8 : 0.85));
+			} else if (V.parasite.left_ear.name === V.parasite.right_ear.name && V.parasite.left_ear.name === "slime") {
 				result = Math.floor(result * 0.9);
 			}
 			break;
@@ -1897,6 +1902,7 @@ function convertHairLengthToStage(hair, length){
 window.convertHairLengthToStage = convertHairLengthToStage;
 
 function calculateSemenReleased(){
+	if(T.deniedOrgasm) return 0;
 	let released = 30;
 
 	released += (V.semen_volume / 30);
@@ -1946,6 +1952,20 @@ function beastMaleChance(override){
 	return 50;	
 }
 window.beastMaleChance = beastMaleChance;
+
+const crimeSum = (prop, ...crimeTypes) => {
+	if (crimeTypes.length === 0) {
+		crimeTypes = Object.keys(setup.crimeNames);
+	}
+	
+	return crimeTypes.reduce((result, crimeType) => result + V.crime[crimeType][prop], 0);
+};
+
+window.crimeSumCurrent = (...args) => crimeSum("current", ...args);
+window.crimeSumHistory = (...args) => crimeSum("history", ...args);
+window.crimeSumDaily = (...args) => crimeSum("daily", ...args);
+window.crimeSumCount = (...args) => crimeSum("count", ...args);
+window.crimeSumCountHistory = (...args) => crimeSum("countHistory", ...args);
 
 /**
  * Event listener for the 'beforeunload' event. Will prompt a dialog box asking the player if he wants to leave.

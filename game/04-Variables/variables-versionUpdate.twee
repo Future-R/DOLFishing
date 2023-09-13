@@ -927,10 +927,6 @@
 		<<set $NPCName[$NPCNameList.indexOf("Kylar")].init to 0>>
 	<</if>>
 
-	<<if $corruption_slime is undefined>>
-		<<set $corruption_slime to 0>>
-	<</if>>
-
 	<<if $chestuse is undefined>>
 		<<set $cheststate to 0>>
 	<</if>>
@@ -4528,6 +4524,33 @@
 		<</if>>
 	<</if>>
 
+	<!-- V0.4.x.x Ear Slime Extension -->
+	<<if $earSlime is undefined>>
+		<<resetEarSlime>>
+		<<set $earSlime.corruption to $corruption_slime or 0>>
+		<<set $earSlime.event to $slimeEvent or "">>
+		<<set $earSlime.eventTimer to $slimeSleepEvent or 0>>
+		<<set $earSlime.eventLength to $slimeEventLength or 0>>
+		<<set $earSlime.defyCooldown to  $slimeDefyCooldown or 0>>
+		<<set $masturbationRuinedOrgasm to 0>>
+		<<set $ruinedOrgasmStat to 0>>
+
+		<<if ["go running or swimming for an hour", "steal something", "go running or swimming naked for an hour"].includes($earSlime.event)>>
+			<<set $earSlime.noSleep to true>>
+		<</if>>
+
+		<<unset $corruption_slime>>
+		<<unset $slimeEvent>>
+		<<unset $slimeSleepEvent>>
+		<<unset $slimeDefyCooldown>>
+		<<set $ruinedorgasmdisable to "f">>
+	<</if>>
+	<<if !$parasite.types.includes("parasite")>>
+		<<run $parasite.types.push("parasite")>>
+		<<run $parasite.parasite to []>>
+		<<run $parasite.breasts to {}>>
+	<</if>>
+
 	<!-- Give leotards a default colour of black after making them recolourable-->
 	<<script>>
 		let underUpperChanger = item => {
@@ -4552,4 +4575,30 @@
 		V.wardrobe.under_lower.forEach(underLowerChanger);
 		underLowerChanger(V.worn.under_lower);
 	<</script>>
+
+	<!-- V0.4.2.0 Crime Overhaul -->
+	<<if !$objectVersion.crime>>
+		<<set _oldCrime to parseInt($crime) || 0>>
+		<<set _oldCrimeHistory to parseInt($crimehistory) || 0>>
+		<<unset $crime>><<unset $crimehistory>>
+		<<set $crime to {
+			assault: {current: 0, history: 0, daily: 0, count: 0, countHistory: 0},
+			coercion: {current: 0, history: 0, daily: 0, count: 0, countHistory: 0},
+			destruction: {current: 0, history: 0, daily: 0, count: 0, countHistory: 0},
+			exposure: {current: 0, history: 0, daily: 0, count: 0, countHistory: 0},
+			obstruction: {current: 0, history: 0, daily: 0, count: 0, countHistory: 0},
+			prostitution: {current: 0, history: 0, daily: 0, count: 0, countHistory: 0},
+			resisting: {current: 0, history: 0, daily: 0, count: 0, countHistory: 0},
+			thievery: {current: _oldCrime, history: _oldCrimeHistory, daily: 0, count: 0, countHistory: 0},
+			petty: {current: 0, history: 0, daily: 0, count: 0, countHistory: 0},
+			trespassing: {current: 0, history: 0, daily: 0, count: 0, countHistory: 0},
+			events: {},
+		}>>
+		<<if $crime.thievery.current gte 1>>
+			<<set $crime.thievery.count to 1>><<set $crime.thievery.countHistory to 1>>
+			<<set C.crime.logEvent(_oldCrime, "thievery", "legacy", 0)>>
+		<</if>>
+		<<set $objectVersion.crime to 1>>
+	<</if>>
+	
 <</widget>>

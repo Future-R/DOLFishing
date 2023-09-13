@@ -104,6 +104,10 @@
 		<span class="gold">Sex</span>
 		Number of orgasms you've experienced: $orgasmstat
 		<br>
+		<<if $ruinedOrgasmStat>>
+			Number of ruined orgasms you've experienced: $ruinedOrgasmStat
+			<br>
+		<</if>>
 		<<if $asphyxiaLvl gte 2>>
 			Orgasms while being choked: $chokeorgasm
 			<br>
@@ -405,8 +409,6 @@
 		<br>
 		Passed out: $passoutstat
 		<br>
-		Crime History: $crimehistory
-		<br>
 		Distinctions won: $distinction_stat
 		<br>
 		Hours slept: $sleepStat
@@ -547,8 +549,12 @@
 			<br>
 			Deviancy: <<print Math.trunc($deviancy)>>
 			<br>
-			Corruption: <<print Math.trunc($corruption_slime)>>
+			Corruption: <<print Math.trunc($earSlime.corruption)>>
 			<br>
+			<<if $earSlime.growth>>
+				Growth: <<print Math.trunc($earSlime.growth)>>
+				<br>
+			<</if>>
 			<<if $temple_rank is "initiate" or $temple_rank is "monk" or $temple_rank is "priest">>
 				Grace: <<print Math.trunc($grace)>>
 				<br>
@@ -695,7 +701,7 @@
 			<br>
 			Detention: <<print Math.trunc($detention)>>
 			<br>
-			Crime: <<print Math.trunc($crime)>>
+			Crime: <<print Math.trunc(crimeSumCurrent())>>
 			<br>
 			Orphanage hope: <<print Math.trunc($orphan_hope)>>
 			<br>
@@ -733,6 +739,43 @@
 			<br>
 			Model fame: <<print Math.trunc($fame.model)>>
 			<br><br>
+		<</foldout>>
+
+		<<foldout false "_crimeFoldout">>
+			<span class="gold">Crime</span>
+			<<for $_cr range Object.keys(setup.crimeNames)>>
+				<<foldout false $_cr>>
+					<span class="gold"><<print toTitleCase(setup.crimeNames[$_cr]) + ":">></span>
+					<<print "Current: " + Math.trunc($crime[$_cr].current)>>
+					<br>
+					<<print "History: " + Math.trunc($crime[$_cr].history)>>
+					<br>
+					<<print "Daily: " + Math.trunc($crime[$_cr].daily)>>
+					<br>
+					<<print "Count: " + Math.trunc($crime[$_cr].count)>>
+					<br>
+					<<print "Count History: " + Math.trunc($crime[$_cr].countHistory)>>
+					<br>
+				<</foldout>>
+			<</for>>
+			<<foldout false "_crimeTotalsFoldout">>
+				<span class="gold">Totals:</span>
+				<<print "Current: " + crimeSumCurrent()>>
+				<br>
+				<<print "History: " + crimeSumHistory()>>
+				<br>
+				<<print "Daily: " + crimeSumDaily()>>
+				<br>
+				<<print "Count: " + crimeSumCount()>>
+				<br>
+				<<print "Count History: " + crimeSumCountHistory()>>
+				<br>
+			<</foldout>>
+			<<foldout false "_crimeEventsFoldout">>
+				<span class="gold">Crime Events:</span>
+				<span id="statscrimeevents"><<listCrimeCheats>></span>
+				<br>
+			<</foldout>>
 		<</foldout>>
 
 		<<foldout false "_transformationFoldout">>

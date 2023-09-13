@@ -174,7 +174,22 @@ window.integrityKeyword = integrityKeyword;
 function integrityWord(worn, slot) {
 	const kw = integrityKeyword(worn, slot);
 	const alt = setup.clothes[slot][clothesIndex(slot, worn)].altDamage;
-	if (alt) {
+	if (alt === "parasite") {
+		switch (kw) {
+			case "tattered":
+				T.text_output = "shredded ";
+				break;
+			case "torn":
+				T.text_output = "patchy ";
+				break;
+			case "frayed":
+				T.text_output = "hurt ";
+				break;
+			case "full":
+			default:
+				T.text_output = "";
+		}
+	} else if (alt) {
 		switch (kw) {
 			case "tattered":
 				T.text_output = "cracked ";
@@ -639,7 +654,7 @@ Macro.add("foldout", {
 		const e = $("<div>").addClass("foldout").append(Wikifier.wikifyEval(content));
 		const header = e.children().first().addClass("foldoutHeader");
 		const toggle = $("<span>").addClass("foldoutToggle").appendTo(header);
-		const body = e.contents().not(header).wrapAll("<div>").parent().insertAfter(header);
+		const body = e.contents().not(header).wrapAll("<div>").parent().addClass("foldoutBody").insertAfter(header);
 
 		setFoldoutState(foldoutState);
 
