@@ -104,8 +104,8 @@
 			<font color="#FFFF00"><<=$FishModel[_i].name>></font><br>
 			栖息地：<<=$FishModel[_i].location>><br>
 			尺寸：<<=$FishModel[_i].size>><br>
-			出没月份：<<=$FishModel[_i].month>><br>
-			出没时段：<<=$FishModel[_i].hour>><br>
+			出没月份：<<=timeFormat($FishModel[_i].month, 0)>><br>
+			出没时段：<<=timeFormat($FishModel[_i].hour, 1)>><br>
 			市场价：£<<=$FishModel[_i].prices>><br>
 			笔记：<<=$FishModel[_i].detail>><br>
 		<<else>>
