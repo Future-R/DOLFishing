@@ -1,6 +1,8 @@
 // 初始化鱼类模板
 function initFishModel() {
-	// 如果模板没初始化，那么把currentFish、fishCollections、newFish也一起初始化
+	if (typeof (V.currentFish) == "undefined") V.currentFish = [];
+	if (typeof (V.fishCollections) == "undefined") V.fishCollections = [];
+	if (typeof (V.newFish) == "undefined") V.newFish = false;
 	if (typeof (V.FishModel) == "undefined") {
 		V.FishModel = [
 			{
@@ -34,7 +36,7 @@ function initFishModel() {
 				size: "特小",
 				prices: 13,
 				desc: "钓到金鱼了！全身都是红色的！",
-				detail: "摇曳生资又可爱的金鱼……究竟能长到多大呢，你知道吗？最大竟然有……30厘米！嗯因为会根据水槽的尺寸停止生长，所以这是一个大致的数据哦。在博物馆的大水槽里到底会长到什么地步呢?我正偷偷地期待着。"
+				detail: "摇曳生姿又可爱的金鱼……究竟能长到多大呢，你知道吗？最大竟然有……30厘米！嗯因为会根据水槽的尺寸停止生长，所以这是一个大致的数据哦。在博物馆的大水槽里到底会长到什么地步呢？我正偷偷地期待着。"
 			},
 			{
 				index: 3,
@@ -114,9 +116,6 @@ function initFishModel() {
 				detail: "要说西太公鱼，最有名的就是在冰冻的河川和湖泊上进行的冰钓了！在冰上凿开一个圆圆的洞，垂下钓鱼线后静静地等待……我很怕冷，所以不会去冰钓呢……"
 			}
 		];
-		V.currentFish = [];
-		V.fishCollections = [];
-		V.newFish = false;
 	}
 }
 window.initFishModel = initFishModel;

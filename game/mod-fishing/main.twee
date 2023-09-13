@@ -25,11 +25,21 @@
 
 <<set $outside to 1>><<set $location to "lake">><<effects>><<lakeeffects>>
 
-巨鹰：<br>
-啊，有什么可以效劳的吗？要是有什么可以帮上忙的，请一定要告诉我。<br><br>
+<br><br>
+巨鹰：“啊，有什么可以效劳的吗？要是有什么可以帮上忙的，请一定要告诉我。”
+<br><br>
+<<if notContains($fishCollections, $currentFish) is not -1>>
+	<<ind>><<link [[捐赠|Ask Fuda About Fish 2]]>><</link>><br>
+<</if>>
+<<ind>><<link [[图鉴|Fish Collections]]>><</link>><br>
+<<ind>><<link [[离开|Lake Fishing Rock]]>><</link>><br>
+
+
+:: Ask Fuda About Fish 2
+<br><br>
 <<set _index to -1>>
 <<set _index to notContains($fishCollections, $currentFish)>>
-<<if _index is not -1>>
+巨鹰：<br>
 	呼呼！
 	<<print either(
 	"这是，这是……<<=$FishModel[$currentFish[_index]].name>>！",
@@ -52,6 +62,59 @@
 	£<<=$money/100>> → 
 	<<set $money += _price>>
 	£<<=$money/100>>
+	<br><br>
+<<if notContains($fishCollections, $currentFish) is not -1>>
+	<<ind>><<link [[继续捐赠|Ask Fuda About Fish 2]]>><</link>><br>
+<</if>>
+<<ind>><<link [[图鉴|Fish Collections]]>><</link>><br>
+<<ind>><<link [[离开|Lake Fishing Rock]]>><</link>><br>
+
+:: Fish Collections
+
+<br><br>
+收集度：<<=$fishCollections.length>> / <<=$FishModel.length>>
+<br>
+<<if $fishCollections.length is 0>>
+	图鉴空空如也，好像等待着写入。<br>
+	纯白也象征着一切的开端，和无穷的可能性。
+<<elseif $fishCollections.length lt $FishModel.length / 3>>
+	图鉴只有寥寥几个记录，但能开始总归是好的。
+	光说不练假把式，只要能行动起来就永远不算晚。
+<<elseif $fishCollections.length lt $FishModel.length / 2>>
+	图鉴逐渐充实起来了，看来辛苦是值得的。
+<<elseif $fishCollections.length lt $FishModel.length / 1.5>>
+	图鉴收集已经过半。
+	图鉴里没有记载的声音和气味，也清晰地浮现在你的记忆中。
+<<elseif $fishCollections.length lt $FishModel.length / 1.25>>
+	图鉴就快完成了。
+	翻着满满当当的记录，这使你充满了决心。
+<<elseif $fishCollections.length lt $FishModel.length>>
+	图鉴差一点就完成了！
+	最后那一点进度可真挠人啊！
+<<elseif $fishCollections.length is $FishModel.length>>
+	你居然完成了图鉴！真是捕鱼达人！
+	即使不用图鉴，你也对其中的信息倒背如流了吧！
 <</if>>
 <br><br>
-<<ind>><<link [[离开|Lake Fishing Rock]]>><</link>><br>
+<<if $fishCollections.length is not 0>>
+<ul>
+	<<for _i, _fish range $FishModel>>
+		<li>
+		<<if $fishCollections.includes($FishModel[_i].index)>>
+			<font color="#FFFF00"><<=$FishModel[_i].name>></font><br>
+			栖息地：<<=$FishModel[_i].location>><br>
+			尺寸：<<=$FishModel[_i].size>><br>
+			出没月份：<<=$FishModel[_i].month>><br>
+			出没时段：<<=$FishModel[_i].hour>><br>
+			市场价：£<<=$FishModel[_i].prices>><br>
+			笔记：<<=$FishModel[_i].detail>><br>
+		<<else>>
+			???<br>
+		<</if>>
+		</li>
+		<br>
+	<</for>>
+</ul>
+<</if>>
+
+<<ind>><<link [[合上图鉴|Ask Fuda About Fish]]>><</link>><br>
