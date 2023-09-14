@@ -1,23 +1,23 @@
-:: Go Fishing
+:: Go Fishing Lake
 
 <<set $outside to 1>><<set $location to "lake">><<effects>><<lakeeffects>>
-
-这片水域似乎有 $Fishing.FishModel.length 种鱼。
+<<set _lakeFishes to appearFishFilter("湖泊")>>
+这片水域似乎有 <<= _lakeFishes.length>> 种鱼。
 <br>
 你的鱼篓里有 $Fishing.currentFish.length 条鱼。
-<br>
+<br><br>
 你奋力提竿。
-<<run anglingCheck()>>
+<<run anglingCheck(_lakeFishes)>>
 <br>
 <<if $Fishing.newFish>>
 	嗯？这是……
 	<font color="#FF0000"><<=$Fishing.FishModel[$Fishing.currentFish.slice(-1)].name>></font>！
 	<br>
 <</if>>
-<font color="#FFFF00">$catchDesc</font>
+<font color="#FFFF00">$Fishing.catchDesc</font>
 <<stress -1>><<lstress>>
 <br><br>
-<<icon "fishing.gif">><<link [[继续继续 (0:10)|Go Fishing]]>><</link>><br>
+<<icon "fishing.gif">><<link [[继续继续 (0:10)|Go Fishing Lake]]>><</link>><br>
 <<ind>><<link [[全部放生|Lake Fishing Rock]]>><<run currentFishClear()>><</link>><br>
 <<ind>><<link [[遗憾离场|Lake Fishing Rock]]>><</link>><br>
 
