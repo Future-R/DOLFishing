@@ -1,10 +1,11 @@
 // 初始化鱼类模板
 function initFishModel() {
-	if (typeof (V.currentFish) == "undefined") V.currentFish = [];
-	if (typeof (V.fishCollections) == "undefined") V.fishCollections = [];
-	if (typeof (V.newFish) == "undefined") V.newFish = false;
-	if (typeof (V.FishModel) == "undefined") {
-		V.FishModel = [
+	if (typeof (V.Fishing) == "undefined") V.Fishing = new Object();
+	if (typeof (V.Fishing.currentFish) == "undefined") V.Fishing.currentFish = [];
+	if (typeof (V.Fishing.fishCollections) == "undefined") V.Fishing.fishCollections = [];
+	if (typeof (V.Fishing.newFish) == "undefined") V.Fishing.newFish = false;
+	if (typeof (V.Fishing.FishModel) == "undefined") {
+		V.Fishing.FishModel = [
 			{
 				index: 0,
 				name: "鲤鱼",

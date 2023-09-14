@@ -2,16 +2,16 @@
 
 <<set $outside to 1>><<set $location to "lake">><<effects>><<lakeeffects>>
 
-这片水域似乎有 $FishModel.length 种鱼。
+这片水域似乎有 $Fishing.FishModel.length 种鱼。
 <br>
-你的鱼篓里有 $currentFish.length 条鱼。
+你的鱼篓里有 $Fishing.currentFish.length 条鱼。
 <br>
 你奋力提竿。
 <<run anglingCheck()>>
 <br>
-<<if $newFish>>
+<<if $Fishing.newFish>>
 	嗯？这是……
-	<font color="#FF0000"><<=$FishModel[$currentFish.slice(-1)].name>></font>！
+	<font color="#FF0000"><<=$Fishing.FishModel[$Fishing.currentFish.slice(-1)].name>></font>！
 	<br>
 <</if>>
 <font color="#FFFF00">$catchDesc</font>
@@ -28,7 +28,7 @@
 <br><br>
 巨鹰：“啊，有什么可以效劳的吗？要是有什么可以帮上忙的，请一定要告诉我。”
 <br><br>
-<<if notContains($fishCollections, $currentFish) is not -1>>
+<<if notContains($Fishing.fishCollections, $Fishing.currentFish) is not -1>>
 	<<ind>><<link [[捐赠|Ask Fuda About Fish 2]]>><</link>><br>
 <</if>>
 <<ind>><<link [[图鉴|Fish Collections]]>><</link>><br>
@@ -38,24 +38,24 @@
 :: Ask Fuda About Fish 2
 <br><br>
 <<set _index to -1>>
-<<set _index to notContains($fishCollections, $currentFish)>>
+<<set _index to notContains($Fishing.fishCollections, $Fishing.currentFish)>>
 巨鹰：<br>
 	呼呼！
 	<<print either(
-	"这是，这是……<<=$FishModel[$currentFish[_index]].name>>！",
-	"这一定是<<=$FishModel[$currentFish[_index]].name>>！",
-	"什么！这不是<<=$FishModel[$currentFish[_index]].name>>吗！"
+	"这是，这是……<<=$Fishing.FishModel[$Fishing.currentFish[_index]].name>>！",
+	"这一定是<<=$Fishing.FishModel[$Fishing.currentFish[_index]].name>>！",
+	"什么！这不是<<=$Fishing.FishModel[$Fishing.currentFish[_index]].name>>吗！"
 	)>>
 	<br>
-	可以的话……关于<font color="#0becf5"><<=$FishModel[$currentFish[_index]].name>></font>，我来给你稍微解说一下吧？
+	可以的话……关于<font color="#0becf5"><<=$Fishing.FishModel[$Fishing.currentFish[_index]].name>></font>，我来给你稍微解说一下吧？
 	<br><br>
-	<<=$FishModel[$currentFish[_index]].detail>>
+	<<=$Fishing.FishModel[$Fishing.currentFish[_index]].detail>>
 	<br><br>
 	<<set _price to 0>>
 	<<set _price to donateFish(_index)>>
-	你向巨鹰捐赠了<font color="#0becf5"><<=$FishModel[$fishCollections.slice(-1)].name>></font>。
+	你向巨鹰捐赠了<font color="#0becf5"><<=$Fishing.FishModel[$Fishing.fishCollections.slice(-1)].name>></font>。
 	<br>
-	图鉴收集度：<<=$fishCollections.length>> / <<=$FishModel.length>>
+	图鉴收集度：<<=$Fishing.fishCollections.length>> / <<=$Fishing.FishModel.length>>
 	<br>
 	获得报酬<font color="#FFFF00">£<<=_price/100>></font>！
 	<br>
@@ -63,7 +63,7 @@
 	<<set $money += _price>>
 	£<<=$money/100>>
 	<br><br>
-<<if notContains($fishCollections, $currentFish) is not -1>>
+<<if notContains($Fishing.fishCollections, $Fishing.currentFish) is not -1>>
 	<<ind>><<link [[继续捐赠|Ask Fuda About Fish 2]]>><</link>><br>
 <</if>>
 <<ind>><<link [[图鉴|Fish Collections]]>><</link>><br>
@@ -72,42 +72,44 @@
 :: Fish Collections
 
 <br><br>
-收集度：<<=$fishCollections.length>> / <<=$FishModel.length>>
+收集度：<<=$Fishing.fishCollections.length>> / <<=$Fishing.FishModel.length>>
 <br>
-<<if $fishCollections.length is 0>>
+<<if $Fishing.fishCollections.length is 0>>
 	图鉴空空如也，好像等待着写入。<br>
 	纯白也象征着一切的开端，和无穷的可能性。
-<<elseif $fishCollections.length lt $FishModel.length / 3>>
+<<elseif $Fishing.fishCollections.length lt $Fishing.FishModel.length / 3>>
 	图鉴只有寥寥几个记录，但能开始总归是好的。
 	光说不练假把式，只要能行动起来就永远不算晚。
-<<elseif $fishCollections.length lt $FishModel.length / 2>>
+<<elseif $Fishing.fishCollections.length lt $Fishing.FishModel.length / 2>>
 	图鉴逐渐充实起来了，看来辛苦是值得的。
-<<elseif $fishCollections.length lt $FishModel.length / 1.5>>
+<<elseif $Fishing.fishCollections.length lt $Fishing.FishModel.length / 1.5>>
 	图鉴收集已经过半。
 	图鉴里没有记载的声音和气味，也清晰地浮现在你的记忆中。
-<<elseif $fishCollections.length lt $FishModel.length / 1.25>>
+<<elseif $Fishing.fishCollections.length lt $Fishing.FishModel.length / 1.25>>
 	图鉴就快完成了。
 	翻着满满当当的记录，这使你充满了决心。
-<<elseif $fishCollections.length lt $FishModel.length>>
+<<elseif $Fishing.fishCollections.length lt $Fishing.FishModel.length>>
 	图鉴差一点就完成了！
 	最后那一点进度可真挠人啊！
-<<elseif $fishCollections.length is $FishModel.length>>
+<<elseif $Fishing.fishCollections.length is $Fishing.FishModel.length>>
 	你居然完成了图鉴！真是捕鱼达人！
 	即使不用图鉴，你也对其中的信息倒背如流了吧！
 <</if>>
+<br>
+<<ind>><<link [[合上图鉴|Ask Fuda About Fish]]>><</link>>
 <br><br>
-<<if $fishCollections.length is not 0>>
+<<if $Fishing.fishCollections.length is not 0>>
 <ul>
-	<<for _i, _fish range $FishModel>>
+	<<for _i, _fish range $Fishing.FishModel>>
 		<li>
-		<<if $fishCollections.includes($FishModel[_i].index)>>
-			<font color="#FFFF00"><<=$FishModel[_i].name>></font><br>
-			栖息地：<<=$FishModel[_i].location>><br>
-			尺寸：<<=$FishModel[_i].size>><br>
-			出没月份：<<=timeFormat($FishModel[_i].month, 0)>><br>
-			出没时段：<<=timeFormat($FishModel[_i].hour, 1)>><br>
-			市场价：£<<=$FishModel[_i].prices>><br>
-			笔记：<<=$FishModel[_i].detail>><br>
+		<<if $Fishing.fishCollections.includes($Fishing.FishModel[_i].index)>>
+			<font color="#FFFF00"><<=$Fishing.FishModel[_i].name>></font><br>
+			栖息地：<<=$Fishing.FishModel[_i].location>><br>
+			尺寸：<<=$Fishing.FishModel[_i].size>><br>
+			出没月份：<<=timeFormat($Fishing.FishModel[_i].month, 0)>><br>
+			出没时段：<<=timeFormat($Fishing.FishModel[_i].hour, 1)>><br>
+			市场价：£<<=$Fishing.FishModel[_i].prices>><br>
+			笔记：<<=$Fishing.FishModel[_i].detail>><br>
 		<<else>>
 			???<br>
 		<</if>>

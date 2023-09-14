@@ -6,16 +6,16 @@ function anglingCheck() {
 	//TODO: 根据【区域】、【月份】和【时间】筛选
 	//TODO: 以 (1200/prices) 作为随机抽取权重
 	V.catchDesc = "";
-	const _rngNum = V.rng % V.FishModel.length;
-	if (V.fishCollections.includes(_rngNum) || V.currentFish.includes(_rngNum))
+	const _rngNum = V.rng % V.Fishing.FishModel.length;
+	if (V.Fishing.fishCollections.includes(_rngNum) || V.Fishing.currentFish.includes(_rngNum))
 	{
-		V.newFish = false;
+		V.Fishing.newFish = false;
 	}
 	else
 	{
-		V.newFish = true;
+		V.Fishing.newFish = true;
 	}
-	V.currentFish.push(_rngNum);
-	V.catchDesc = V.FishModel[_rngNum].desc;
+	V.Fishing.currentFish.push(_rngNum);
+	V.catchDesc = V.Fishing.FishModel[_rngNum].desc;
 }
 window.anglingCheck = anglingCheck;
