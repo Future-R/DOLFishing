@@ -16,7 +16,7 @@
 		<br>
 	<</if>>
 	<font color="#FFFF00">$Fishing.catchDesc</font>
-	<<stress -1>><<lstress>>
+	<<stress -5>><<lstress>>
 <<else>>
 	/* TODO */
 	<<print either(
@@ -50,7 +50,7 @@
 		<br>
 	<</if>>
 	<font color="#FFFF00">$Fishing.catchDesc</font>
-	<<stress -1>><<lstress>>
+	<<stress -5>><<lstress>>
 <<else>>
 	/* TODO */
 	<<print either(
@@ -83,7 +83,7 @@
 		<br>
 	<</if>>
 	<font color="#FFFF00">$Fishing.catchDesc</font>
-	<<stress -1>><<lstress>>
+	<<stress -5>><<lstress>>
 <<else>>
 	/* TODO */
 	<<print either(
