@@ -375,11 +375,6 @@ You are at the bus stop beside the lake. The road from town terminates here, end
 <</if>>
 
 <<set $danger to random(1, 10000)>><<set $dangerevent to 0>>
-<<run initFishModel()>>
-	<<icon "fishing.gif">><<link [[钓鱼 (0:10)|Go Fishing Lake]]>><</link>>
-	<br>
-	<<icon "ask.gif">><<link [[询问巨鹰|Ask Fuda About Fish]]>><</link>>
-	<br>
 <<if $stress gte $stressmax and !$possessed>>
 	<<passoutlake>>
 <<elseif $foresthunt gte 10>>
@@ -389,6 +384,11 @@ You are at the bus stop beside the lake. The road from town terminates here, end
 <<else>>
 	<<eventlakesafe>>
 	<<lakereturnjourney>>
+	<<run initFishModel()>>
+	<<icon "fishing.gif">><<link [[钓鱼 (0:10)|Go Fishing Lake]]>><<pass 10>><</link>>
+	<br>
+	<<icon "ask.gif">><<link [[询问巨鹰|Ask Fuda About Fish]]>><</link>>
+	<br>
 	<<ind>><<link [[Meditate|Lake Meditate]]>><<set $phase to 1>><</link>>
 	<br>
 	<<if $nextPassageCheck is "Lake Waterfall">>

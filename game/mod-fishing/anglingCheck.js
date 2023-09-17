@@ -7,8 +7,8 @@ function anglingCheck(fishes, encounterBonus = 0) {
 	var _encounter = V.tending / 25 + 20;
 	// 运河、码头-20%遭遇率；钓鱼岩+20%遭遇率。
 	_encounter += encounterBonus;
-	//雨天加成20%遭遇率；猫化加成20%遭遇率；
-	if (V.weather == 'rain') _encounter += 20;
+	// 雨天加成20%遭遇率；猫化加成20%遭遇率；
+	if (V.weather == 'rain' || V.weather == 'snow') _encounter += 20;
 	if (V.cat >= 6) _encounter += 20;
 
 	// 钓鱼检定

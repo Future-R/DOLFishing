@@ -110,6 +110,9 @@ You're on a thin coastal path north of the farmlands, above a cliff facing the s
 <</if>>
 
 <br>
+<<run initFishModel()>>
+<<icon "fishing.gif">><<link [[钓鱼 (0:10)|Go Fishing Coast Path]]>><<pass 10>><</link>>
+<br>
 <<meadowicon>><<link [[Enter the meadow (0:30)|Meadow]]>><<pass 30>><</link>>
 <br>
 

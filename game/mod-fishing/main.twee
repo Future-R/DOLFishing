@@ -26,11 +26,78 @@
 	"决定放这些鱼儿一条生路。",
 	"钓到了易拉罐！为净化水域做了点微小的贡献呢！"
 	)>>
-	
+	<<anglingCheckFail>>
 <</if>>
 <br><br>
-<<icon "fishing.gif">><<link [[继续继续 (0:10)|Go Fishing Lake]]>><</link>><br>
+<<icon "fishing.gif">><<link [[继续继续 (0:10)|Go Fishing Lake]]>><<pass 10>><</link>><br>
 <<getouticon>><<link [[到此为止|Lake Fishing Rock]]>><</link>><br>
+
+:: Go Fishing Coast Path
+
+<<location "coastpath">><<effects>>
+<<set _lakeFishes to appearFishFilter("海洋")>>
+这片水域似乎有 <<= _lakeFishes.length>> 种鱼。
+<br>
+你的鱼篓里有 $Fishing.currentFish.length 条鱼。
+<br><br>
+你奋力提竿。
+<<set _BoolAC to anglingCheck(_lakeFishes)>>
+<br>
+<<if _BoolAC>>
+	<<if $Fishing.newFish>>
+		嗯？这是……
+		<font color="#FF0000"><<=$Fishing.FishModel[$Fishing.currentFish.slice(-1)].name>></font>！
+		<br>
+	<</if>>
+	<font color="#FFFF00">$Fishing.catchDesc</font>
+	<<stress -1>><<lstress>>
+<<else>>
+	/* TODO */
+	<<print either(
+	"结果什么也没钓到。",
+	"嗯？这是……不…什么也没有……",
+	"除了寂寞一无所有。",
+	"决定放这些鱼儿一条生路。",
+	"钓到了易拉罐！为净化水域做了点微小的贡献呢！"
+	)>>
+	<<anglingCheckFail>>
+<</if>>
+<br><br>
+<<icon "fishing.gif">><<link [[继续继续 (0:10)|Go Fishing Coast Path]]>><<pass 30>><</link>><br>
+<<getouticon>><<link [[到此为止|Coast Path Farmland]]>><</link>><br>
+
+:: Go Fishing Canal
+
+<<set _lakeFishes to appearFishFilter("河流")>>
+这片水域似乎有 <<= _lakeFishes.length>> 种鱼。
+<br>
+你的鱼篓里有 $Fishing.currentFish.length 条鱼。
+<br><br>
+你奋力提竿。
+<<set _BoolAC to anglingCheck(_lakeFishes, -20)>>
+<br>
+<<if _BoolAC>>
+	<<if $Fishing.newFish>>
+		嗯？这是……
+		<font color="#FF0000"><<=$Fishing.FishModel[$Fishing.currentFish.slice(-1)].name>></font>！
+		<br>
+	<</if>>
+	<font color="#FFFF00">$Fishing.catchDesc</font>
+	<<stress -1>><<lstress>>
+<<else>>
+	/* TODO */
+	<<print either(
+	"结果什么也没钓到。",
+	"嗯？这是……不…什么也没有……",
+	"除了寂寞一无所有。",
+	"决定放这些鱼儿一条生路。",
+	"钓到了易拉罐！为净化水域做了点微小的贡献呢！"
+	)>>
+	<<anglingCheckFail>>
+<</if>>
+<br><br>
+<<icon "fishing.gif">><<link [[继续继续 (0:10)|Go Fishing Canal]]>><<pass 10>><</link>><br>
+<<getouticon>><<link [[到此为止|Flats]]>><</link>><br>
 
 :: Ask Fuda About Fish
 

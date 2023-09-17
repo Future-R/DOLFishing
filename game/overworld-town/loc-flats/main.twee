@@ -272,6 +272,9 @@ You are on the ground floor of a block of flats on Barb Street. The walls and fl
                 <br>
             <</if>>
         <</if>>
+		<br>
+		<<run initFishModel()>>
+		<<icon "fishing.gif">><<link [[钓鱼 (0:10)|Go Fishing Canal]]>><<pass 10>><</link>>
         <br><br>
         <<ind>><<link [[Leave|Barb Street]]>><</link>>
         <br>
