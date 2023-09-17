@@ -7,19 +7,30 @@
 你的鱼篓里有 $Fishing.currentFish.length 条鱼。
 <br><br>
 你奋力提竿。
-<<run anglingCheck(_lakeFishes)>>
+<<set _BoolAC to anglingCheck(_lakeFishes, 20)>>
 <br>
-<<if $Fishing.newFish>>
-	嗯？这是……
-	<font color="#FF0000"><<=$Fishing.FishModel[$Fishing.currentFish.slice(-1)].name>></font>！
-	<br>
+<<if _BoolAC>>
+	<<if $Fishing.newFish>>
+		嗯？这是……
+		<font color="#FF0000"><<=$Fishing.FishModel[$Fishing.currentFish.slice(-1)].name>></font>！
+		<br>
+	<</if>>
+	<font color="#FFFF00">$Fishing.catchDesc</font>
+	<<stress -1>><<lstress>>
+<<else>>
+	/* TODO */
+	<<print either(
+	"结果什么也没钓到。",
+	"嗯？这是……不…什么也没有……",
+	"除了寂寞一无所有。",
+	"决定放这些鱼儿一条生路。",
+	"钓到了易拉罐！为净化水域做了点微小的贡献呢！"
+	)>>
+	
 <</if>>
-<font color="#FFFF00">$Fishing.catchDesc</font>
-<<stress -1>><<lstress>>
 <br><br>
 <<icon "fishing.gif">><<link [[继续继续 (0:10)|Go Fishing Lake]]>><</link>><br>
-<<ind>><<link [[全部放生|Lake Fishing Rock]]>><<run currentFishClear()>><</link>><br>
-<<ind>><<link [[遗憾离场|Lake Fishing Rock]]>><</link>><br>
+<<getouticon>><<link [[到此为止|Lake Fishing Rock]]>><</link>><br>
 
 :: Ask Fuda About Fish
 
@@ -29,10 +40,10 @@
 巨鹰：“啊，有什么可以效劳的吗？要是有什么可以帮上忙的，请一定要告诉我。”
 <br><br>
 <<if notContains($Fishing.fishCollections, $Fishing.currentFish) is not -1>>
-	<<ind>><<link [[捐赠|Ask Fuda About Fish 2]]>><</link>><br>
+	<<highicon>><<link [[捐赠|Ask Fuda About Fish 2]]>><</link>><br>
 <</if>>
-<<ind>><<link [[图鉴|Fish Collections]]>><</link>><br>
-<<ind>><<link [[离开|Lake Fishing Rock]]>><</link>><br>
+<<libraryicon>><<link [[图鉴|Fish Collections]]>><</link>><br>
+<<getouticon>><<link [[离开|Lake Fishing Rock]]>><</link>><br>
 
 
 :: Ask Fuda About Fish 2
@@ -57,21 +68,19 @@
 	<br>
 	图鉴收集度：<<=$Fishing.fishCollections.length>> / <<=$Fishing.FishModel.length>>
 	<br>
-	获得报酬<font color="#FFFF00">£<<=_price/100>></font>！
+	获得报酬<<printmoney _price>>！
 	<br>
-	£<<=$money/100>> → 
 	<<set $money += _price>>
-	£<<=$money/100>>
 	<br><br>
 <<if notContains($Fishing.fishCollections, $Fishing.currentFish) is not -1>>
-	<<ind>><<link [[继续捐赠|Ask Fuda About Fish 2]]>><</link>><br>
+	<<highicon>><<link [[继续捐赠|Ask Fuda About Fish 2]]>><</link>><br>
 <</if>>
-<<ind>><<link [[图鉴|Fish Collections]]>><</link>><br>
-<<ind>><<link [[离开|Lake Fishing Rock]]>><</link>><br>
+<<libraryicon>><<link [[图鉴|Fish Collections]]>><</link>><br>
+<<getouticon>><<link [[离开|Lake Fishing Rock]]>><</link>><br>
 
 :: Fish Collections
 
-<br><br>
+<br>
 收集度：<<=$Fishing.fishCollections.length>> / <<=$Fishing.FishModel.length>>
 <br>
 <<if $Fishing.fishCollections.length is 0>>
@@ -95,7 +104,7 @@
 	你居然完成了图鉴！真是捕鱼达人！
 	即使不用图鉴，你也对其中的信息倒背如流了吧！
 <</if>>
-<br>
+<br><br>
 <<ind>><<link [[合上图鉴|Ask Fuda About Fish]]>><</link>>
 <br><br>
 <<if $Fishing.fishCollections.length is not 0>>
