@@ -108,6 +108,8 @@
 <br><br>
 <<if notContains($Fishing.fishCollections, $Fishing.currentFish) is not -1>>
 	<<highicon>><<link [[捐赠|Ask Fuda About Fish 2]]>><</link>><br>
+<<elseif $Fishing.currentFish.length > 0>>
+	<<highicon>><<link [[出售|Sell Fish to Fuda]]>><</link>><br>
 <</if>>
 <<libraryicon>><<link [[图鉴|Fish Collections]]>><</link>><br>
 <<getouticon>><<link [[离开|Lake Fishing Rock]]>><</link>><br>
@@ -141,9 +143,23 @@
 	<br><br>
 <<if notContains($Fishing.fishCollections, $Fishing.currentFish) is not -1>>
 	<<highicon>><<link [[继续捐赠|Ask Fuda About Fish 2]]>><</link>><br>
+<<elseif $Fishing.currentFish.length > 0>>
+	<<highicon>><<link [[出售|Sell Fish to Fuda]]>><</link>><br>
 <</if>>
 <<libraryicon>><<link [[图鉴|Fish Collections]]>><</link>><br>
 <<getouticon>><<link [[离开|Lake Fishing Rock]]>><</link>><br>
+
+:: Sell Fish to Fuda
+
+巨鹰：<br>
+<<set _num to 0>>
+<<set _num to $Fishing.currentFish.length>>
+<<set _price to 0>>
+<<set _price to sellAllFish()>>
+感谢！一共<<=_num>>条鱼，给你<<printmoney _price>>！
+<<set $money += _price>>
+<br><br>
+<<ind>><<link [[好的|Ask Fuda About Fish]]>><</link>><br>
 
 :: Fish Collections
 
@@ -155,7 +171,8 @@
 	纯白也象征着一切的开端，和无穷的可能性。
 <<elseif $Fishing.fishCollections.length lt $Fishing.FishModel.length / 3>>
 	图鉴只有寥寥几个记录，但能开始总归是好的。
-	光说不练假把式，只要能行动起来就永远不算晚。
+<<elseif $Fishing.fishCollections.length lt $Fishing.FishModel.length / 2.5>>
+	图鉴已经有一些记录，但还是太少，再加把劲吧！
 <<elseif $Fishing.fishCollections.length lt $Fishing.FishModel.length / 2>>
 	图鉴逐渐充实起来了，看来辛苦是值得的。
 <<elseif $Fishing.fishCollections.length lt $Fishing.FishModel.length / 1.5>>

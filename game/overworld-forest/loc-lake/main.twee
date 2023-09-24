@@ -393,6 +393,7 @@ You are at the bus stop beside the lake. The road from town terminates here, end
 	<</if>>
 	<br>
 	<<ind>><<link [[South to campsite (0:20)|Lake Campsite]]>><<pass 20>><</link>>
+	<br>
 	<<run initFishModel()>>
 	<<icon "fishing.gif">><<link [[钓鱼 (0:10)|Go Fishing Lake]]>><<pass 10>><</link>>
 	<br>

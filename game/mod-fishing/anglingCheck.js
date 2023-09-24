@@ -3,8 +3,8 @@
 function anglingCheck(fishes, encounterBonus = 0) {
 
 	if (typeof (fishes) == "undefined" || fishes.length < 1) return false;
-	// 护理水平决定遭遇率加成，基础20%，S60%。
-	var _encounter = V.tending / 25 + 20;
+	// 图鉴完成度决定遭遇率加成，基础20%，S60%。
+	var _encounter = (V.Fishing.fishCollections.length / V.Fishing.FishModel.length) * 40 + 20;
 	// 运河、码头-20%遭遇率；钓鱼岩+20%遭遇率。
 	_encounter += encounterBonus;
 	// 雨天加成20%遭遇率；猫化加成20%遭遇率；
