@@ -12,11 +12,11 @@ function anglingCheck(fishes, encounterBonus = 0) {
 	if (V.cat >= 6) _encounter += 20;
 
 	// 钓鱼检定
-	if (V.rng > _encounter) return false;
-	
+	if (random(1, 101) > _encounter) return false;
+
 	//TODO: 以 (1200/prices) 作为随机抽取权重
 	V.Fishing.catchDesc = "";
-	var _fishIndex = fishes[V.rng % fishes.length].index;
+	var _fishIndex = fishes[random(0, fishes.length - 1)].index;
 	if (V.Fishing.fishCollections.includes(_fishIndex) || V.Fishing.currentFish.includes(_fishIndex)) {
 		V.Fishing.newFish = false;
 	}
