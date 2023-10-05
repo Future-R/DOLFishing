@@ -1463,6 +1463,14 @@ function dailySchoolEffects() {
 		fragment.append(wikifier("crimeUp", 20, "thievery"));
 	}
 
+	if (V.island !== undefined) {
+		if (V.island.walnut >= 1) {
+			const rng = random(0, V.island.walnut);
+			V.island.walnut -= rng;
+			V.island.walnut_dried += rng;
+		}
+	}
+
 	return fragment;
 }
 
@@ -1554,7 +1562,7 @@ function dailyFarmEvents() {
 			fragment.append(wikifier("farm_stock", "eggs", 6, 12));
 		}
 		if (V.farm.kennel >= 1) {
-			fragment.append(wikifier("farm_dogs", -2));
+			fragment.append(wikifier("farm_dogs", -1));
 			fragment.append(wikifier("farm_cattle", -1));
 		}
 		fragment.append(wikifier("farm_build_day"));
@@ -1732,9 +1740,9 @@ function earSlimeDaily() {
 	if (V.earSlime.eventTimer < 1) V.earSlime.event = "";
 
 	if (V.earSlime.corruption >= 60 && V.parasite.left_ear.name === "slime" && V.parasite.right_ear.name === "slime" && V.earSlimeTest) {
-		V.earSlime.growth++;
+		if (V.earSlime.growth < 100) V.earSlime.growth++;
 		if (V.earSlime.corruption >= 100) V.earSlime.growth++;
-		V.earSlime.growth = Math.clamp(V.earSlime.growth, 0, V.earSlime.focus === "none" ? 50 : 100);
+		V.earSlime.growth = Math.clamp(V.earSlime.growth, 0, V.earSlime.focus === "none" ? 50 : 200);
 	} else if (V.earSlime.corruption < 30 && V.earSlime.growth <= 50 && V.earSlimeTest) {
 		// Reduce the growth variable only if below or equal to 50
 		V.earSlime.growth--;
@@ -1788,6 +1796,7 @@ function earSlimeDaily() {
 				V.effectsmessage = 1;
 				V.penisslimecagemessage = 1;
 				wikifier("genitalswear", 8);
+				V.worn.genitals.origin = "ear slime";
 			} else if (V.worn.genitals.name === "chastity parasite" && V.worn.genitals.integrity < clothingData("genitals", V.worn.genitals, "integrity_max")) {
 				// Repairs the chastity parasite
 				if (integrityKeyword(V.worn.genitals.integrity, "genitals") !== "full") {
@@ -1796,6 +1805,10 @@ function earSlimeDaily() {
 				}
 				V.worn.genitals.integrity = clothingData("genitals", V.worn.genitals, "integrity_max");
 			}
+		}
+		if (V.earSlime.forcedDressing) {
+			V.earSlime.forcedDressing.days--;
+			if (V.earSlime.forcedDressing.days < 0) delete V.earSlime.forcedDressing;
 		}
 	}
 }

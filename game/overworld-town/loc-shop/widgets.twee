@@ -1062,6 +1062,8 @@ Forth argument - item index*/
 			"minipumpkin":"locked",
 			"gakuran":"locked",
 			"classicserafuku":"locked",
+			"sailorribbon":"locked",
+			"islandermask":"locked",
 		}>>
 	<</if>>
 	<!-- the following lines are for backwards compatibility with older saves. if you want to add a new item, add it above as well. -->
@@ -1127,6 +1129,16 @@ Forth argument - item index*/
 	<<if $specialClothes.minipumpkin is undefined>>
 		<<set $specialClothes.minipumpkin to "locked">>
 	<</if>>
+	<<if $specialClothes.gakuran is undefined>>
+		<<set $specialClothes.gakuran to "locked">>
+	<</if>>
+	<<if $specialClothes.sailorribbon is undefined>>
+		<<set $specialClothes.sailorribbon to $specialClothes.serafuku is "unlocked" ? "unlocked" : "locked">>
+		<<set $specialClothes.classicserafuku to $specialClothes.serafuku is "unlocked" ? "unlocked" : "locked">>
+	<</if>>
+	<<if $specialClothes.islandermask is undefined>>
+		<<set $specialClothes.islandermask to "locked">>
+	<</if>>
 <</widget>>
 
 <<widget "specialClothesUpdate">>
@@ -1134,6 +1146,7 @@ Forth argument - item index*/
 		<<set $specialClothes["classicserafuku"] to "unlocked">>
 		<<set $specialClothes["serafuku"] to "unlocked">>
 		<<set $specialClothes["gakuran"] to "unlocked">>
+		<<set $specialClothes["sailorribbon"] to "unlocked">>
 	<</if>>
 	<<if $undergroundbrothelescaped>>
 		<<set $specialClothes["slutshirt"] to "unlocked">>
@@ -1218,6 +1231,9 @@ Forth argument - item index*/
 		<<set $specialClothes["ragtop"] to "unlocked">>
 		<<set $specialClothes["ragskirt"] to "unlocked">>
 	<</if>>
+	<<if $islander_mask gte 100>>
+		<<set $specialClothes["islandermask"] to "unlocked">>
+	<</if>>
 
 	<<if Object.values($specialClothes).every(item => item is "unlocked")>>
 		<<earnFeat "Curious Attire">>
@@ -1274,7 +1290,9 @@ Forth argument - item index*/
 			"ragskirt":"Demonstrate historical torture devices to completion.",
 			"minipumpkin":"In stock from the 21st of October.",
 			"gakuran":"Discover the headteacher's secret.",
-			"classicserafuku":"locked",
+			"classicserafuku":"Discover the headteacher's secret.",
+			"sailorribbon":"Discover the headteacher's secret.",
+			"islandermask":"Build with foreign wood."
 		}>>
 	<</if>>
 <</widget>>

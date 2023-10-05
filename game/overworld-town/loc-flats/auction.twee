@@ -173,23 +173,23 @@ An agreeable murmur responds.
     <<case "sex">>
         "I hear half the town have had a go. Perhaps it's my turn."
     <<case "pregnancy" "impreg">>
-        "<<pShe>>'s leaving kids behind. Maybe <<pshe>>'ll be happy to make some more."
+        "<<pShes>> leaving kids behind. Maybe <<pshe>>'ll be happy to make some more."
     <<case "good">>
-        "<<pShe>>'s a gentle one. Should be easy to control."
+        "<<pShes>> a gentle one. Should be easy to control."
     <<case "business">>
-        "They've fallen far to end up here."
+        "<<pShes>> fallen far to end up here."
     <<case "pimp">>
-        "Seeing them like this is delicious."
+        "Seeing <<phim>> like this is delicious."
     <<case "scrap">>
         "Might be a tough one to keep in line."
     <<case "social">>
-        "They've friends in high places. This is fun."
+        "<<pShes>> got friends in high places. This is fun."
     <<case "model">>
         "This is a dream come true."
     <<case "dance">>
-        "They're used to the spotlight."
+        "<<pShes>> used to the spotlight."
     <<default>>
-        "They live at the orphanage, or used to."
+        "<<pShe>> lives at the orphanage, or used to."
 <</switch>>
 <br><br>
 "You heard the <<personsimple>>," the <<person2>><<person>> shouts. "And <<pshe>> can be all yours. Let's start the bidding at," <<he>> pauses. "£<<print Math.trunc($flats_auction * 100)>>!"
@@ -231,7 +231,7 @@ The <<person1>><<person>> looks at you expectantly, a bludgeon at <<his>> side.
 :: Flats Auction 6
 <<effects>>
 
-The <<person5>><<person>> approaches the platform. The <<person1>><<person>> throws a hood over your head before <<he>> arrives, then shoves you from the stage. Someone catches you in their arms. "Watch your footing." It's the <<person5>><<person>>. "Or you won't last long."
+The <<person5>><<person>> approaches the platform. The <<person1>><<person>> throws a hood over your head before <<person5>><<he>> arrives, then shoves you from the stage. Someone catches you in their arms. "Watch your footing." It's the <<person5>><<person>>. "Or you won't last long."
 <br><br>
 
 <<He>> holds you by your bound arms, and pushes you into motion. You turn a corner, then another. The sound of the auction fades behind you.

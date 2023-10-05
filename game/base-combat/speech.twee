@@ -229,7 +229,7 @@
 						<<else>>
 							<<He>> ?admires your newly-exposed <<genitals>>. "There. Exposed like the slut you are."
 						<</if>>
-						<<if $player.gender is "h">><<insecurity "penis_big" 1>><<ginsecurity "penis_big">><</if>>
+						<<if $player.penisExist and $player.vaginaExist>><<insecurity "penis_big" 1>><<ginsecurity "penis_big">><</if>>
 
 					<<case 2>>
 						<<if $enemyanger lte 20>>
@@ -4033,7 +4033,7 @@
 						<<case 1>> "You're adorable."
 						<<case 2>> "Why so shy?"
 					<</switch>>
-				<<case "serafuku">>
+				<<case "serafuku" "gakuran">>
 					<<switch random(1,3)>>
 						<<case 1>> "What a cute outfit."
 						<<case 2>> "Are you one of those anime nerds?"

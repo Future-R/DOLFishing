@@ -167,12 +167,16 @@ function masturbationActionsHands(arm, { selectedToy, toyDisplay, genitalsExpose
 		case 0:
 			result.text = `Your ${arm} hand is free.`;
 			if (V.player.penisExist) {
-				if (V.awareness >= 400 && V.masturbationorgasmsemen >= 1 && V[arm + "FingersSemen"] !== 1) {
+				if (
+					(V.awareness >= 400 || V.earSlime.event.includes("get your own sperm into your")) &&
+					V.masturbationorgasmsemen >= 1 &&
+					V[arm + "FingersSemen"] !== 1
+				) {
 					result.options.push({
 						action: "msemencover",
 						text: "Cover your fingers in semen",
 						colour: "sub",
-						otherElements: "<<combataware 5>>",
+						otherElements: V.earSlime.event.includes("get your own sperm into your") ? undefined : "<<combataware 5>>",
 					});
 				}
 				if (!playerChastity("penis")) {
@@ -288,7 +292,7 @@ function masturbationActionsHands(arm, { selectedToy, toyDisplay, genitalsExpose
 			result.text = `You rub your <<pussy>> with your ${arm} hand.`;
 			if (genitalsExposed()) {
 				if (V.vaginause === 0 && ([0, "mvaginaentrance"].includes(V[otherArm + "arm"]) || V[otherArm + "arm"].startsWith("mvagina"))) {
-					if (V.vaginaFingerLimit >= 3 && V.vaginalskill >= 300) {
+					if (V.vaginaFingerLimit >= 3 && currentSkillValue("vaginalskill") >= 300) {
 						result.options.push({
 							action: "mvaginafingerstarttwo",
 							text: "Push two fingers in",
@@ -307,6 +311,12 @@ function masturbationActionsHands(arm, { selectedToy, toyDisplay, genitalsExpose
 						text: "Play with your clit",
 						colour: "sub",
 					});
+				} else if (V.parasite.clit.name !== "parasite") {
+					result.options.push({
+						action: "mvaginaclitparasite",
+						text: `Play with the clitoral ${V.parasite.clit.name}`,
+						colour: "sub",
+					});
 				}
 			}
 			result.options.push({
@@ -320,7 +330,7 @@ function masturbationActionsHands(arm, { selectedToy, toyDisplay, genitalsExpose
 			result.text = `You have <<number $fingersInVagina>> ${V.fingersInVagina === 1 ? "finger" : "fingers"} in your <<pussy>>.${
 				V.fingersInVagina === V.vaginaFingerLimit ? " You cannot fit any more." : ""
 			}`;
-			if (V.fingersInVagina < V.vaginaFingerLimit - 1 && V.fingersInVagina < 4 && V.vaginalskill >= 300) {
+			if (V.fingersInVagina < V.vaginaFingerLimit - 1 && V.fingersInVagina < 4 && currentSkillValue("vaginalskill") >= 300) {
 				result.options.push({
 					action: "mvaginafingeraddtwo",
 					text: "Push another two fingers in",
@@ -368,7 +378,7 @@ function masturbationActionsHands(arm, { selectedToy, toyDisplay, genitalsExpose
 				text: "Take one finger out",
 				colour: "sub",
 			});
-			if (V.vaginalskill >= 700) {
+			if (currentSkillValue("vaginalskill") >= 700) {
 				result.options.push({
 					action: "mvaginafistremove",
 					text: "Pull your hand out",
@@ -394,10 +404,17 @@ function masturbationActionsHands(arm, { selectedToy, toyDisplay, genitalsExpose
 						colour: "sub",
 					});
 				}
-				if (V.player.vaginaExist && !V.parasite.clit.name && !playerChastity("vagina")) {
+				if (V.player.vaginaExist && !playerChastity("vagina")) {
+					if (!V.parasite.clit.name) {
+						result.options.push({
+							action: "mvaginaclitdildo",
+							text: "Play with your clit",
+							colour: "sub",
+						});
+					}
 					result.options.push({
-						action: "mvaginaclitdildo",
-						text: "Play with your clit",
+						action: "mvaginarubdildo",
+						text: "Rub your vulva",
 						colour: "sub",
 					});
 				}
@@ -558,7 +575,7 @@ function masturbationActionsHands(arm, { selectedToy, toyDisplay, genitalsExpose
 							colour: "sub",
 						});
 					}
-					if (genitalsExposed() && V.awareness >= 300 && V.vaginalskill >= 300 && !selectedToy(arm).name.includes("small")) {
+					if (genitalsExposed() && V.awareness >= 300 && currentSkillValue("vaginalskill") >= 300 && !selectedToy(arm).name.includes("small")) {
 						result.options.push({
 							action: "mvaginaentrancedildofloor",
 							text: "Place on the floor by your vagina",
@@ -575,7 +592,7 @@ function masturbationActionsHands(arm, { selectedToy, toyDisplay, genitalsExpose
 							colour: "sub",
 						});
 					}
-					if (genitalsExposed() && V.awareness >= 300 && V.analskill >= 300 && !selectedToy(arm).name.includes("small")) {
+					if (genitalsExposed() && V.awareness >= 300 && currentSkillValue("analskill") >= 300 && !selectedToy(arm).name.includes("small")) {
 						result.options.push({
 							action: "manusentrancedildofloor",
 							text: "Place on the floor by your anus",
@@ -593,12 +610,20 @@ function masturbationActionsHands(arm, { selectedToy, toyDisplay, genitalsExpose
 								colour: "sub",
 							});
 						}
-						if (V.player.vaginaExist && !V.parasite.clit.name && !playerChastity("vagina")) {
-							result.options.push({
-								action: "mvaginaclitvibrate",
-								text: "Hold against your clit",
-								colour: "sub",
-							});
+						if (V.player.vaginaExist && !playerChastity("vagina")) {
+							if (!V.parasite.clit.name) {
+								result.options.push({
+									action: "mvaginaclitvibrate",
+									text: "Hold against your clit",
+									colour: "sub",
+								});
+							} else if (V.parasite.clit.name !== "parasite") {
+								result.options.push({
+									action: "mvaginaclitvibrateparasite",
+									text: `Hold against the clitoral ${V.parasite.clit.name}`,
+									colour: "sub",
+								});
+							}
 						}
 						result.options.push({
 							action: "mchestvibrate",
@@ -851,13 +876,22 @@ function masturbationActionsMouth({ selectedToy, toyDisplay, genitalsExposed }) 
 					colour: "sub",
 					otherElements: !corruptionCheck ? "<<combataware 3>>" : undefined,
 				});
-				if (!V.parasite.clit.name && !playerChastity("vagina")) {
-					result.options.push({
-						action: "mvaginaclit",
-						text: "Focus on your clit",
-						colour: "sub",
-						otherElements: !corruptionCheck ? "<<combataware 3>>" : undefined,
-					});
+				if (!playerChastity("vagina")) {
+					if (!V.parasite.clit.name) {
+						result.options.push({
+							action: "mvaginaclit",
+							text: "Focus on your clit",
+							colour: "sub",
+							otherElements: !corruptionCheck ? "<<combataware 3>>" : undefined,
+						});
+					} else if (V.parasite.clit.name !== "parasite") {
+						result.options.push({
+							action: "mvaginaclitparasite",
+							text: `Focus on the clitoral ${V.parasite.clit.name}`,
+							colour: "sub",
+							otherElements: !corruptionCheck ? "<<combataware 3>>" : undefined,
+						});
+					}
 				}
 			}
 			result.options.push(stop("mvaginastop"));

@@ -237,7 +237,7 @@
 		<<bodywriting_npc_kylar _args[0] _args[1]>>
 	<<elseif $npc[$npcrow.indexOf(_n)] is "Sydney">>
 		<<bodywriting_npc_sydney _args[0] _args[1]>>
-	<<elseif $NPCList[_n].type is "plant">>
+	<<elseif $NPCList[_n].type is "plant" or $role is "islander">>
 		<<bodywriting_npc_picture _args[0] _args[1]>>
 	<<elseif $rng gte 51>>
 		<<bodywriting_npc_special _args[0] _args[1]>>
@@ -886,7 +886,7 @@
 <<widget "bodypart_admire_prostitution">>
 	<<if $NPCList[_n].paid is 1>>
 	<<elseif $skin[_args[0]].degree lte 0>>
-		<<if (($enemyarousal + ($enemytrust * 5) - $enemyanger + ($attractiveness / 10) * ($seductionskill / 200)) gte 1000)>>
+		<<if (($enemyarousal + ($enemytrust * 5) - $enemyanger + ($attractiveness / 10) * (currentSkillValue("seductionskill") / 200)) gte 1000)>>
 			<<set $enemyanger += 10>><<set $enemytrust -= 100>><<fameprostitution 1>>
 			<<if !$speechadmired>><<set $speechadmired to 1>>
 				<<switch random(1, 5)>>
@@ -899,7 +899,7 @@
 			<</if>>
 			<<He>> drops a <<moneyGain 10>> note atop you.
 			<<earnFeat "Billboard">><<set $NPCList[_n].paid to 1>>
-		<<elseif (($enemyarousal + ($enemytrust * 5) - $enemyanger + ($attractiveness / 10) * ($seductionskill / 200)) gte 500)>>
+		<<elseif (($enemyarousal + ($enemytrust * 5) - $enemyanger + ($attractiveness / 10) * (currentSkillValue("seductionskill") / 200)) gte 500)>>
 			<<set $enemyanger += 10>><<set $enemytrust -= 100>><<fameprostitution 1>>
 			<<if !$speechadmired>><<set $speechadmired to 1>>
 				<<switch random(1, 5)>>
@@ -924,7 +924,7 @@
 				<</switch>>
 			<</if>>
 		<</if>>
-	<<elseif $skin[_args[0]].degree lte ($enemyarousal + ($enemytrust * 5) - $enemyanger + ($attractiveness / 10) * ($seductionskill / 200))>>
+	<<elseif $skin[_args[0]].degree lte ($enemyarousal + ($enemytrust * 5) - $enemyanger + ($attractiveness / 10) * (currentSkillValue("seductionskill") / 200))>>
 		<<set $enemyanger += 10>><<set $enemytrust -= $skin[_args[0]].degree>><<fameprostitution 1>>
 		<<if !$speechadmired>><<set $speechadmired to 1>>
 			<<switch random(1, 5)>>
@@ -2104,7 +2104,7 @@
 <</widget>>
 
 <<widget "bodypart_admire">>
-	<<if !$noAdmire>>
+	<<if !$noAdmire and ($role isnot "islander" or $islander_language gte 100)>>
 		<<if _args[0].includes("random_")>>
 			<<set _args[0] to _args[0].replace("random_", (random(0,1) ? "left_" : "right_"))>> <!-- ex "random_cheek" turns into either "right_cheek" or "left_cheek" -->
 		<</if>>
@@ -2197,7 +2197,7 @@
 		<<case "right_shoulder">>
 			<<bodypart_admire_cum rightarm>>
 		<<case "pubic">>
-			<<if $player.gender is "m" or ($player.gender is "h" and random(1, 2) is 1)>>
+			<<if $player.penisExist and (!$player.vaginaExist or random(1, 2) is 1)>>
 				<<bodypart_admire_cum penis>>
 			<<else>>
 				<<if random(1, 2) is 1>>
@@ -2235,7 +2235,7 @@
 		<<case "right_shoulder">>
 			<<bodypart_admire_parasite right_arm>>
 		<<case "pubic">>
-			<<if $player.gender is "m" or ($player.gender is "h" and random(1, 2) is 1)>>
+			<<if $player.penisExist and (!$player.vaginaExist or random(1, 2) is 1)>>
 				<<bodypart_admire_parasite penis>>
 			<<else>>
 				<<bodypart_admire_parasite clit>>

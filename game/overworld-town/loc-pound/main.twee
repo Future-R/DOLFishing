@@ -34,6 +34,9 @@ You are in the dog pound on Starfish Street. Stray <<pound_text>> fill the cages
 		<</if>>
 		<br><br>
 	<</if>>
+	<br>
+	<<stray_happiness_text>>
+	<br>
 	<<beastNEWinit 1 dog>>
 	A <<beasttype>> watches you through the bars.
 	<br>
@@ -48,8 +51,6 @@ You are in the dog pound on Starfish Street. Stray <<pound_text>> fill the cages
 		<</if>>
 	<</if>>
 	<br><br>
-
-
 
 	<<if $openinghours is 1 and $exposed lt 1>>
 		Staff go about their business.
@@ -2166,7 +2167,7 @@ You make <<moneyGain $pound.money>>.
 <<else>>
 	You pass beneath a stone archway. There aren't many ruins this close to town, and those that remain have been worn down, their inscriptions faded or wiped entirely.
 	<br><br>
-	<<if $history gte 1000>>
+	<<if currentSkillValue("history") gte 1000>>
 		<<link [[Try to read an inscription|Pound Work Walk Hills Read]]>><</link>><<willpowerdifficulty 600 1000>>
 		<br>
 	<<else>>

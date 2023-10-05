@@ -121,7 +121,7 @@ You are on Alex's farm. A rustic farmhouse overlooks a yard and chicken coop. Ot
 	<</if>>
 <</if>>
 
-<<if isPlayerNonparasitePregnancyEnding()>>
+<<if isPlayerNonparasitePregnancyEnding() and getPregnancyObject().fetus[0].father is "Alex">>
 	<<pcFarmBirth>>
 
 <<elseif $fields_damaged gte 0>>
@@ -334,7 +334,7 @@ You are on Alex's farm. A rustic farmhouse overlooks a yard and chicken coop. Ot
 	<</if>>
 	<br><br>
 
-	<<if getPregnancyObject().potentialFathers.find(s => s.source === "Alex") and (C.npc.Alex.pregnancy.knowledge isnot true or C.npc.Alex.pregnancy.test is true)>>
+	<<if playerIsPregnant() and playerAwareTheyArePregnant() and getPregnancyObject().potentialFathers.find(s => s.source === "Alex") and (C.npc.Alex.pregnancy.knowledge isnot true or C.npc.Alex.pregnancy.test is true)>>
 		<<pcPregnancyRevealToAlex>>
 
 	<<else>>
@@ -579,7 +579,7 @@ You are on Alex's farm. A rustic farmhouse overlooks a yard and chicken coop. Ot
 		<br>
 	<</if>>
 <<else>>
-	<<if npcIsPregnant("Alex") and !talkedAboutPregnancy("Alex","pc") and npcBellySize("Alex") gte 1 and !$farm_work.alex.includes("shower","admin","clearing") and between(Time.hour, 6, 21)>>
+	<<if $farm_work isnot undefined and $farm_work.alex isnot undefined and npcIsPregnant("Alex") and !talkedAboutPregnancy("Alex","pc") and npcBellySize("Alex") gte 1 and !$farm_work.alex.includes("shower","admin","clearing") and between(Time.hour, 6, 21)>>
 		<<npc "Alex">>
 		Alex approaches you. You can see a nervous expression on <<his>> face.
 		<br><br>
@@ -604,7 +604,7 @@ You are on Alex's farm. A rustic farmhouse overlooks a yard and chicken coop. Ot
 		<<if $farm_stage gte 7 and $alex_countdown is undefined>>
 			You notice Alex staring at your belly in horror. "You're...you're pregnant?! You didn't tell me anything..."
 
-			<<if getPregnancyObject().potentialFathers.length gte 2>>
+			<<if getPregnancyObject().potentialFathers.length gte 2 or !getPregnancyObject().potentialFathers.find(s => s.source === "Alex")>>
 				<<He>> sounds disappointed.
 				<br><br>
 
@@ -632,7 +632,7 @@ You are on Alex's farm. A rustic farmhouse overlooks a yard and chicken coop. Ot
 
 		<</if>>
 
-	<<elseif isPlayerNonparasitePregnancyEnding()>>
+	<<elseif isPlayerNonparasitePregnancyEnding() and getPregnancyObject().fetus[0].father is "Alex">>
 		<<pcFarmBirth>>
 
 	<<elseif npcPregnancyEnding("Alex")>>
@@ -763,7 +763,7 @@ You are on Alex's farm. A rustic farmhouse overlooks a yard and chicken coop. Ot
 				<span class="pink">"You deserve a little for your help, partner."</span>
 			<<else>>
 				<span class="pink">"Keep at it. You'll make a fine farmer someday."</span>
-			<</if>>  <span class="gold">You've earned <<moneyGain `$farm_yield_alex * 9`>>.</span>
+			<</if>> <span class="gold">You've earned <<moneyGain `$farm_yield_alex * 9`>>.</span>
 			<br><br>
 
 		<<elseif _alex.dom lte -30>>
@@ -771,7 +771,7 @@ You are on Alex's farm. A rustic farmhouse overlooks a yard and chicken coop. Ot
 				<span class="teal">"Hope you don't mind handling the profits, partner."</span>
 			<<else>>
 				<span class="teal">"Dunno what I'd do without you, so this is fair."</span>
-			<</if>>
+			<</if>> <span class="gold">You've earned <<moneyGain `$farm_yield_alex * 24`>>.</span>
 			<br><br>
 
 		<<else>>
@@ -779,14 +779,14 @@ You are on Alex's farm. A rustic farmhouse overlooks a yard and chicken coop. Ot
 				<span class="blue">"Here's your share of the profits, partner."</span>
 			<<else>>
 				<span class="blue">"Your doing, so this is fair. You've a way with the animals."</span>
-			<</if>>  <span class="gold">You've earned <<moneyGain `$farm_yield_alex * 9`>>.</span>
+			<</if>> <span class="gold">You've earned <<moneyGain `$farm_yield_alex * 18`>>.</span>
 			<br><br>
 
 		<</if>>
 
 		<<alex_pregnancy_comment>>
 
-		<<if getPregnancyObject().potentialFathers.find(s => s.source === "Alex") and (C.npc.Alex.pregnancy.knowledge isnot true or C.npc.Alex.pregnancy.test is true)>>
+		<<if playerIsPregnant() and playerAwareTheyArePregnant() and getPregnancyObject().potentialFathers.find(s => s.source === "Alex") and (C.npc.Alex.pregnancy.knowledge isnot true or C.npc.Alex.pregnancy.test is true)>>
 			<<pcPregnancyRevealToAlex>>
 		<<else>>
 			<<link [[Next|Farm Work]]>><<endevent>><</link>>
@@ -1617,7 +1617,7 @@ You drop to your knees beside the <<farm_text horse>>, and observe <<farm_his ho
 <</if>>
 
 <br><br>
-<<if $handskill gte random(1, 1000)>>
+<<if currentSkillValue("handskill") gte random(1, 1000)>>
 	<<farm_He horse>> starts bucking against your hands, <span class="green">but you manage to keep up.</span> <<farm_He horse>> moves faster, until <<farm_his horse>> whole body shudders in orgasm.
 
 
@@ -1679,7 +1679,7 @@ You drop to your knees beside the <<farm_text horse>>, and observe <<farm_his ho
 
 <br><br>
 
-<<if $oralskill gte random(1, 1000)>>
+<<if currentSkillValue("oralskill") gte random(1, 1000)>>
 	<<farm_He horse>> starts bucking against your face. You grasp <<farm_his horse>> hind legs, <span class="green">and manage to remain steady.</span> It moves faster, until <<farm_his horse>> whole body shudders in orgasm.
 
 

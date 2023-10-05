@@ -44,18 +44,18 @@ You are downstairs in Alex's cottage. It's tight, and cozy. There's a kitchen wi
 	<br><br>
 	<<link [[Next|Farm Cottage]]>><</link>>
 
-<<elseif playerBellyVisible() and !talkedAboutPregnancy("pc","Alex") and (between(Time.hour, 5, 6) or $farm_work.alex.includes("admin","clearing"))>>
+<<elseif playerBellyVisible() and !talkedAboutPregnancy("pc","Alex")>>
 	<<npc "Alex">>
 	<<setTalkedAboutPregnancy "pc" "Alex">>
 	<<if $farm_stage gte 7 and $alex_countdown is undefined>>
 		You notice Alex staring at your belly in horror. "You're...you're pregnant?! You didn't tell me anything..."
 
-		<<if getPregnancyObject().potentialFathers.length gte 2>>
+		<<if getPregnancyObject().potentialFathers.length gte 2 or !getPregnancyObject().potentialFathers.find(s => s.source === "Alex")>>
 			<<He>> sounds disappointed.
 			<br><br>
 								
 			"W-well, you can take a break from the farm whenever you're not feeling well," <<he>> says.
-				<br><br>
+			<br><br>
 
 			<<link [[Next|Farm Work]]>><<endevent>><</link>>
 								
@@ -63,7 +63,7 @@ You are downstairs in Alex's cottage. It's tight, and cozy. There's a kitchen wi
 			<br><br>
 			<<He>> looks at you, as if waiting for a response.
 
-			"Actually, let's go to the cottage, shall we?" Alex leads you inside.
+			"Actually, take a seat, would you?" Alex says.
 			<br><br>
 
 			<<link [[Next|Farm PC Pregnancy Reveal]]>><<set $phase to 3>><</link>>
@@ -72,7 +72,7 @@ You are downstairs in Alex's cottage. It's tight, and cozy. There's a kitchen wi
 
 	<<else>>
 		You notice Alex looking at your belly. "Oh, got yourself knocked up? You can take a break from the farm if you feel it's too much for you. I don't mind," <<he>> says.
-			<br><br>
+		<br><br>
 
 		<<link [[Next|Farm Work]]>><<endevent>><</link>>
 
@@ -97,10 +97,10 @@ You are downstairs in Alex's cottage. It's tight, and cozy. There's a kitchen wi
 
 	<<link [[Next|Farm Alex Birth]]>><</link>>
 
-<<elseif isPlayerNonparasitePregnancyEnding()>>
+<<elseif isPlayerNonparasitePregnancyEnding() and getPregnancyObject().fetus[0].father is "Alex">>
 	<<pcFarmBirth>>
 
-<<elseif npcIsPregnant("Alex") and !talkedAboutPregnancy("Alex","pc") and npcBellySize("Alex") gte 1 and (between(Time.hour, 5, 6) or $farm_work.alex.includes("admin","clearing"))>>
+<<elseif npcIsPregnant("Alex") and !talkedAboutPregnancy("Alex","pc") and npcBellySize("Alex") gte 1>>
 	<<alex_cottage_pregnancy_reveal>>
 
 <<elseif ($farm_countdown lte 0 or $farm_countdown is undefined) and ($renttime lte -2 or ($renttime lte 0 and Time.hour gte 4 and Time.hour lte 21))>>
@@ -343,7 +343,7 @@ You snuggle under the covers.
 <</if>>
 <br><br>
 
-<<if $alex_bed isnot "player" and $earSlime.corruption gte (currentSkillValue('willpower') / 20) and random(0,100) lt 3 + $earSlime.defyCooldown and !$earSlime.eventTimer and !$earSlime.event>>
+<<if $alex_bed isnot "player" and $earSlime.corruption gte (currentSkillValue('willpower') / 20) and random(0,100) lt 3 + Math.floor($earSlime.growth / 100) + $earSlime.defyCooldown and !$earSlime.eventTimer and !$earSlime.event>>
 	<<set $slimeBedExit to "Farm Bed">>
 	<<set $slimeBedroomExit to "Farm Bedroom">>
 	<<slimeNoSleep>>
@@ -390,6 +390,9 @@ You snuggle under the covers.
 			<span class="nextLink"><<link [[Walk.|Farm Bedroom]]>><<rainWraith>><</link>></span>
 		<</if>>
 		<br>
+	<<elseif _slimeWakeMasturbation is 1>>
+		<<set _masturbationExit to "Farm Sleep">>
+		<<slimeWakeMasturbation>>
 	<<else>>
 		<<wakingEffects $sleepHoursTotal>>
 		<<if $nightmares gte 1 and $controlled is 0>>
@@ -591,9 +594,9 @@ You whack Alex's hand, and struggle from the bed. "Suit yourself," <<he>> says. 
 <<set _alex to $NPCName[$NPCNameList.indexOf("Alex")]>>
 
 You gyrate your hips, <<bottomtext>> rubbing your <<bottom>> against Alex's <<print (_alex.penis isnot "none" ? "shaft" : "pussy")>> through the fabric, making it
-<<if $bottomskill lt 400>>
+<<if currentSkillValue("bottomskill") lt 400>>
 	slowly moisten.
-<<elseif $bottomskill lt 800>>
+<<elseif currentSkillValue("bottomskill") lt 800>>
 	quickly moisten.
 <<else>>
 	soaked in an instant.
@@ -961,7 +964,7 @@ You are in Alex's bedroom. It's similar to yours. Clothes tumble from the wardro
 <<if $stress gte $stressmax and !$possessed>>
 	<<passoutfarmroad>>
 
-<<elseif npcIsPregnant("Alex") and !talkedAboutPregnancy("Alex","pc") and npcBellySize("Alex") gte 1 and (between(Time.hour, 5, 6) or $farm_work.alex.includes("admin","clearing"))>>
+<<elseif npcIsPregnant("Alex") and !talkedAboutPregnancy("Alex","pc") and npcBellySize("Alex") gte 1>>
 	<<alex_cottage_pregnancy_reveal>>
 
 <<else>>
@@ -1017,11 +1020,11 @@ You are in Alex's bedroom. It's similar to yours. Clothes tumble from the wardro
 		<</if>>
 		<<endevent>>
 
-		<<if getPregnancyObject().potentialFathers.find(s => s.source === "Alex") and (C.npc.Alex.pregnancy.knowledge isnot true or C.npc.Alex.pregnancy.test is true)>>
+		<<if playerIsPregnant() and playerAwareTheyArePregnant() and getPregnancyObject().potentialFathers.find(s => s.source === "Alex") and (C.npc.Alex.pregnancy.knowledge isnot true or C.npc.Alex.pregnancy.test is true)>>
 			<<pcPregnancyRevealToAlex>>
 		<</if>>
 
-		<<officeicon>><<link [[Offer help (1:00)|Farm Alex Admin]]>><<pass 60>><<npc Alex>><<person1>><<npcincr Alex love 1>><<stress 6>><</link>><<skill_difficulty "$maths" "Maths" 1 1000>><<glove>><<gstress>>
+		<<officeicon>><<link [[Offer help (1:00)|Farm Alex Admin]]>><<pass 60>><<npc Alex>><<person1>><<npcincr Alex love 1>><<stress 6>><</link>><<skill_difficulty `currentSkillValue("maths")` "Maths" 1 1000>><<glove>><<gstress>>
 		<br>
 		<<if $alex_countdown is undefined and $NPCName[$NPCNameList.indexOf("Alex")].love gte 80>>
 			<<officeicon>><<link [[Cuddle Alex (0:30)|Farm Phone Cuddle]]>><<pass 30>><<npc Alex>><<person1>><<npcincr Alex love 1>><</link>><<glove>>
@@ -1082,7 +1085,7 @@ You are in Alex's bedroom. It's similar to yours. Clothes tumble from the wardro
 	You snuggle beside Alex.
 <<else>>
 	You snuggle under the covers.
-	<<if $alex_bed isnot "player" and $earSlime.corruption gte (currentSkillValue('willpower') / 20) and random(0,100) lt 3 + $earSlime.defyCooldown and !$earSlime.eventTimer and !$earSlime.event>>
+	<<if $alex_bed isnot "player" and $earSlime.corruption gte (currentSkillValue('willpower') / 20) and random(0,100) lt 3 + Math.floor($earSlime.growth / 100) + $earSlime.defyCooldown and !$earSlime.eventTimer and !$earSlime.event>>
 		<<set $slimeBedExit to "Farm Alex Bed">>
 		<<set $slimeBedroomExit to "Farm Alex Bedroom">>
 		<<slimeNoSleep>>
@@ -2002,7 +2005,7 @@ You get comfy beside Alex.
 			<<link [[Ask what Alex saw|Farm TV Ask]]>><<npcincr Alex lust 3>><<arousal 100>><</link>><<glust>><<garousal>>
 		<</if>>
 	<<case 4>>
-		You press foreheads together, and eskimo kiss during a commercial break.
+		You press foreheads together, and rub your noses together during a commercial break.
 	<<case 5>>
 		You displace <<his>> <<npcClothesText _alex "upper">>, exposing <<his>> toned midriff. You blow hot air and rub your face against it. <<He>> cracks up at the sight.<<npcincr Alex lust 1>><<glust>>
 	<<case 6>>
@@ -2022,8 +2025,13 @@ You get comfy beside Alex.
 		<</if>>
 		Feeling at peace, you gaze into each other's eyes.
 	<<case 7>>
+
+		<<if C.npc.Alex.pregnancy.noBirthControl isnot true and ($playerPregnancyHumanDisable is "f" or $npcPregnancyDisable is "f") and (!npcIsPregnant("Alex") or !playerIsPregnant()) and C.npc.Alex.gender isnot $player.gender>>
+			<<set C.npc.Alex.pregnancy.noBirthControl to true>>
+		<</if>>
+
 		<<if (npcIsPregnant("Alex") or playerIsPregnant()) and C.npc.Alex.pregnancy.knowledge is true>>
-			"What do you think about <<if Alex and PC already have children>>our family growing<<else>>us having a family<</if>> soon?" you ask, resting your head on <<his>> shoulder.
+			"What do you think about <<if childrenCountBetweenParents("Alex","pc") gte 1 or childrenCountBetweenParents("pc","Alex") gte 1>>our family growing<<else>>us having a family<</if>> soon?" you ask, resting your head on <<his>> shoulder.
 			<br><br>
 
 			<<He>> wraps an arm around you and pauses for a moment.
@@ -2134,6 +2142,14 @@ You get comfy beside Alex.
 	<<link [[Next|Farm Cottage]]>><<endevent>><</link>>
 	<br>
 <<else>>
+	<<if C.npc.Alex.pregnancy.noBirthControl is true and C.npc.Alex.pregnancy.pills isnot "fertility">>
+		<<link [[Ask to have a baby|Farm Cottage Baby Request]]>><</link>>
+
+		<i><span class="blue"> This will make Alex more fertile till <<nnpc_his "Alex">> next pregnancy</span></i>
+		<br><br>
+	
+	<</if>>
+
 	<<link [[Keep cuddling (0:20)|Farm Breakfast Cuddle]]>><<npcincr Alex love 1>><<pass 20>><</link>><<glove>>
 	<br>
 	<<link [[Watch TV (0:20)|Farm Breakfast TV]]>><<pass 20>><<stress -6>><</link>><<lstress>>
@@ -2418,9 +2434,9 @@ You sit beside Alex, and make yourself comfy.
 		You thank <<him>>. <span class="green">It felt satisfying.</span> "Don't mention it," <<he>> smiles. "You looked tense."<<stress -12>><<llstress>>
 	<<else>>
 		Alex looks strained and fatigued. In hopes to soothe <<him>>, you start to <<handtext>> knead <<his>> shoulders and back muscles.
-			<<if $handskill gte 800>>
+			<<if currentSkillValue("handskill") gte 800>>
 				"I-I'll call you back," <<he>> says, hanging up the phone. <<He>> slumps against you, and breathes heavily, as if in a trance.
-			<<elseif $handskill gte 400>>
+			<<elseif currentSkillValue("handskill") gte 400>>
 				"One sec," <<he>> says, putting the phone down. <<He>> leans back, and puts <<his>> feet on the desk as <<he>> relaxes to your touch.
 			<<else>>
 				<<His>> expression doesn't change much as <<he>> continues to talk on the phone, but <<he>> seems appreciative for your effort.
@@ -3095,7 +3111,7 @@ Alex slams the door.
 	
 	<</if>>
 
-	<<if $farm_work.alex.includes("admin","clearing")>>
+	<<if $farm_work isnot undefined and $farm_work.alex isnot undefined and $farm_work.alex.includes("admin","clearing")>>
 		<<link [[Next|Farm Alex Bedroom]]>><<endevent>><</link>>
 
 	<<else>>
@@ -4279,3 +4295,82 @@ Alex's mother turns to Alex. "I need to get back to work now, but listen, I'm pr
 <br><br>
 
 <<link [[Next|Farm Cottage]]>><</link>>
+
+:: Farm Cottage Baby Request
+<<effects>>
+<<npc "Alex">>
+
+<<set C.npc.Alex.pregnancy.pills to "fertility">>
+<<set C.npc.Alex.pregnancyAvoidance to 0>>
+
+"Hey," you say, leaning closer to <<him>>. "Let's have <<if childrenCountBetweenParents("pc","Alex") lte 0 or childrenCountBetweenParents("Alex","pc") lte 0>>a<<else>>another<</if>> baby."
+<br><br>
+
+<<He>> freezes in place. "H-Hold on, partner. What's this all about?"
+<br><br>
+
+"You said you wouldn't mind, so I thought it would be good for us."
+<br><br>
+
+<<He>> thinks for a while. "Okay," <<he>> says. "I guess we can try."
+<br><br>
+
+You try to pull <<him>> closer but
+
+<<if $NPCName[25].gender is "f">>
+	<<he>> shifts <<his>> position, straddling your lap.
+
+<<else>>
+	<<he>> pulls you into <<his>> lap.
+
+<</if>>
+<br><br>
+
+"Why the long face?" <<he>> says with a grin. "You owe me a good ride now. Didn't you want <<if $NPCName[25].gender is "f">> to knock me up<<else>> me to breed you<</if>>?" Alex says, leaning closer and closing <<his>> eyes.
+<br><br>
+
+<<link [[Next|Farm Cottage Babay Request Sex]]>><<set $sexstart to 1>><</link>>
+
+:: Farm Cottage Babay Request Sex
+
+<<if $sexstart is 1>>
+	<<set $sexstart to 0>>
+	<<consensual>>
+	<<set $consensual to 1>>
+	<<neutral 1>>
+	<<maninit>>
+<</if>>
+
+<<effects>>
+<<effectsman>>
+<<man>>
+<<stateman>>
+<br><br>
+<<actionsman>>
+
+<<if _combatend>>
+	<span id="next"><<link [[Next|Farm Cottage Babay Request Sex Finish]]>><</link>></span><<nexttext>>
+<<else>>
+	<span id="next"><<link [[Next|Farm Cottage Babay Request Sex]]>><</link>></span><<nexttext>>
+<</if>>
+
+:: Farm Cottage Babay Request Sex Finish
+
+<<if $enemyarousal gte $enemyarousalmax>>
+	<<ejaculation>>
+
+	"I'll stop using contraceptives, so you better be sure of this, mate."
+	<br><br>
+
+	<<clotheson>>
+	<<endcombat>>
+
+<<elseif $finish is 1>>
+	"What?" <<he>> says, confused. "But you...whatever. I'll stop using contraceptives, so you better be sure of this, mate."
+	<br><br>
+
+	<<clotheson>>
+	<<endcombat>>
+<</if>>
+
+<<link [[Next|Farm Cottage]]>><<endevent>><<pass 20>><</link>>

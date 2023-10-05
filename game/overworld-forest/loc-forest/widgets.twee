@@ -968,7 +968,7 @@
 			<<rng>>
 			<<if Time.dayState isnot "night">>
 				<<if $rng gte 51>>
-					<<if $feetskill gte 800>>
+					<<if currentSkillValue("feetskill") gte 800>>
 						<<npc Eden>><<person1>>
 						You step on a branch. You're almost caught off guard as a rope starts to coil around your legs. <span class="green">You jump out of the way.</span> A half-second later and you'd be left dangling from a tree.
 						<br><br>
@@ -1183,10 +1183,10 @@
 		<<link [[Sneak up|Forest Fox Nest Sneak]]>><</link>><<skulduggerydifficulty>>
 		<br>
 		<<if $fox gte 6>>
-			<<link [[Chase!|Forest Fox Nest Chase]]>><<set $phase2 to 1>><<stress -6>><<transform fox 1>><</link>><<llstress>><<fox>> | <span class="red">No eggs</span>
+			<<link [[Chase!|Forest Fox Nest Chase]]>><<set $phase2 to 1>><<stress -6>><<transform fox 1>><</link>><<llstress>><<fox>><<note "No eggs" "red">>
 			<br>
 		<<else>>
-			<<link [[Chase|Forest Fox Nest Chase]]>><<set $phase2 to 1>><<tiredness 6>><</link>><<gtiredness>><<athleticsdifficulty 1 300>> | <span class="red">No eggs</span>
+			<<link [[Chase|Forest Fox Nest Chase]]>><<set $phase2 to 1>><<tiredness 6>><</link>><<gtiredness>><<athleticsdifficulty 1 300>><<note "No eggs" "red">>
 			<br>
 		<</if>>
 	<<else>>

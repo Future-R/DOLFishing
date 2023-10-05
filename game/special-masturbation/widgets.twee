@@ -52,7 +52,7 @@
 		<<elseif _masturbationorgasm lte 100>>
 			You came <<number _masturbationorgasm>> times. Tentacle monsters could learn a thing or two about endurance from you.
 		<<else>>
-			You came <<number _masturbationorgasm>> times. Are you insane or are you actually aiming to be a tentacle monster god?
+			You came <<number _masturbationorgasm>> times. You might be trying to ascend to tentacle godhood. You might be crazy.
 		<</if>>
 		<<if _masturbationorgasm and $masturbationRuinedOrgasm>>
 			<br><br>
@@ -110,6 +110,7 @@
 	<<if $reformChastityParasite and $worn.genitals.name is "naked" and $player.penisExist and $earSlime.focus is "pregnancy">>
 		<span class="purple">The chastity parasite re-forms around your penis.</span>
 		<<genitalswear 8>>
+		<<set $worn.genitals.origin to "ear slime">>
 		<br>
 	<</if>>
 	<<unset $reformChastityParasite>>
@@ -221,9 +222,9 @@
 		<!-- if virgin, limit is 2 -->
 		<<set $vaginaFingerLimit to 2>>
 	<<else>>
-		<<if $vaginalskill gte 600 or $demon gte 3>> <!-- Demons are stretchy. -->
+		<<if currentSkillValue("vaginalskill") gte 600 or $demon gte 3>> <!-- Demons are stretchy. -->
 			<<set $vaginaFingerLimit to 5>>
-		<<elseif $vaginalskill gte 200 or $demon gte 1>>
+		<<elseif currentSkillValue("vaginalskill") gte 200 or $demon gte 1>>
 			<<set $vaginaFingerLimit to 4>>
 		<<else>>
 			<<set $vaginaFingerLimit to 3>>
@@ -240,7 +241,7 @@
 	<<selfsuckchecks>>
 
 	<<if $earSlime.event.includes("get your own sperm into your") and $worn.genitals.name is "chastity parasite">>
-		<span class="lewd">Your <<penis>> is freed from your chastity parasite</span>.
+		<span class="lewd">Your <<penis>> is freed from your chastity parasite.</span>
 		<br><br>
 		<<set $worn.genitals.type.push("broken")>>
 		<<genitalsruined>>

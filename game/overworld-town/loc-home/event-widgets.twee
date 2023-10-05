@@ -128,13 +128,19 @@
 				<br>
 				<<link [[Refuse|Orphanage Loft Intro]]>><<set $phase to 1>><</link>>
 				<br>
-
+				
 			<<case 6>>
 			<<homeeventnorm>>
 		<</switch>>
 	<<elseif $rng gte 71>>
-		<<rng 6>>
-		<<if $rng gte 6>>
+		<<rng 7>>
+		<<if $rng gte 7>>
+			<<if $loft_whitney gte 6>>
+				<<homeeventwhitney>>
+			<<else>>
+				<<homeeventnorm>>
+			<</if>>
+		<<elseif $rng gte 6>>
 			<<if $loft_kylar>>
 				<<homeeventkylar>>
 			<<else>>
@@ -515,7 +521,7 @@
 			A group of orphans are playing darts. A picture of Bailey has been tacked onto the board.
 			<br><br>
 
-				<<if $handskill lte 999>>
+				<<if currentSkillValue("handskill") lte 999>>
 					<<link [[Join in (0:30)|Home Darts]]>><<pass 30>><<handskill 5>><<stress -3>><</link>><<ghandskill>><<lstress>>
 				<<else>>
 					<<link [[Join in (0:30)|Home Darts]]>><<pass 30>><<control 10>><<stress -3>><</link>><<gcontrol>><<lstress>>
@@ -577,6 +583,14 @@
 			<<link [[Ignore|Orphanage]]>><<endevent>><</link>>
 			<br>
 	<</switch>>
+<</widget>>
+
+<<widget "homeeventwhitney">>
+	<span class="teal">You overhear a <<generateyv1>><<generateyv2>><<fullGroup>> discussing in hushed tones, speaking of the vengeance they've wracked against molesters.</span><<greb>><<reb 1>>
+	<br><br>
+
+	<<link [[Next|Orphanage]]>><<endevent>><</link>>
+	<br>
 <</widget>>
 
 <<widget "homeeventkylar">>

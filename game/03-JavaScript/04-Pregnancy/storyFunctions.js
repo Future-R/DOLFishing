@@ -453,7 +453,7 @@ function playerHeatMinArousal() {
 	// Should always be the first to modify minArousal
 	if (risk <= 1 && pills.contraceptive.doseTaken === 0) {
 		if (V.earSlime.growth > 50 && V.earSlime.focus === "pregnancy" && !V.earSlime.defyCooldown) {
-			minArousal += Math.clamp(V.earSlime.growth, 0, 100) * 10 * (2 - risk);
+			minArousal += Math.clamp(V.earSlime.growth, 0, 200) * 5 * (2 - risk);
 		}
 		if (V.wolfgirl >= 2) minArousal += Math.clamp(V.wolfbuild, 0, 100) * 10 * (2 - risk);
 		if (V.cat >= 2) minArousal += Math.clamp(V.catbuild, 0, 100) * 10 * (2 - risk);
@@ -478,7 +478,7 @@ function playerRutMinArousal() {
 
 	if (pills.contraceptive.doseTaken === 0 && V.player.beastRut !== undefined && V.player.beastRut <= 1) {
 		if (V.earSlime.growth > 50 && V.earSlime.focus === "impregnation" && !V.earSlime.defyCooldown) {
-			minArousal += Math.clamp(V.earSlime.growth, 0, 100) * 10;
+			minArousal += Math.clamp(V.earSlime.growth, 0, 200) * 5;
 		}
 		if (V.wolfgirl >= 2) minArousal += Math.clamp(V.wolfbuild, 0, 100) * 10;
 		if (V.cat >= 2) minArousal += Math.clamp(V.catbuild, 0, 100) * 10;
@@ -494,7 +494,7 @@ function playerRutMinArousal() {
 window.playerRutMinArousal = playerRutMinArousal;
 
 function playerAwareTheyCanBePregnant() {
-	return V.player.vaginaExist || (canBeMPregnant() && V.sexStats.anus.pregnancy.totalBirthEvents >= 1);
+	return V.player.vaginaExist || (canBeMPregnant() && V.sexStats.anus.pregnancy.totalBirthEvents >= 1) || playerAwareTheyArePregnant();
 }
 window.playerAwareTheyCanBePregnant = playerAwareTheyCanBePregnant;
 
